@@ -1,11 +1,15 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Object = System.Object;
 
 public class TriggerScript : MonoBehaviour
 {
     
     public TextMeshProUGUI interactionText;
+    public string targetScene;
+    public bool locked;
 
     private void Start()
     {
@@ -16,9 +20,26 @@ public class TriggerScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Hráč vstoupil do zóny!");
-            interactionText.enabled = true;
+            if (interactionText != null)
+            {
+                interactionText.enabled = true;
+            }
+            else
+            {
+                Debug.Log("Chybí text.");
+            }
             
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (!locked && Input.GetKey(KeyCode.E))
+            {
+                SceneManager.LoadScene(targetScene);
+            }
         }
     }
     
@@ -26,8 +47,14 @@ public class TriggerScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Hráč opustil zónu.");
-            interactionText.enabled = false;
+            if (interactionText != null)
+            {
+                interactionText.enabled = false;
+            }
+            else
+            {
+                Debug.Log("Chybí text.");
+            }
         }
     }
 }
