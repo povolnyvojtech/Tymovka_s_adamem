@@ -36,7 +36,7 @@ public class TriggerScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (!locked && Input.GetKey(KeyCode.E))
+            if (!locked && Input.GetKey(KeyCode.E) && targetScene != null)
             {
                 SceneManager.LoadScene(targetScene);
             }
