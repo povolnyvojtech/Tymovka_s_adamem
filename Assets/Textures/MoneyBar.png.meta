@@ -116,10 +116,10 @@ TextureImporter:
       name: MoneyBar_0
       rect:
         serializedVersion: 2
-        x: 10
+        x: 32
         y: 0
-        width: 106
-        height: 32
+        width: 314
+        height: 94
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

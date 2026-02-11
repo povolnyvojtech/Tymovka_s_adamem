@@ -1,42 +1,25 @@
-using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Object = System.Object;
+using UnityEngine.UIElements;
 
 public class TriggerScript : MonoBehaviour
 {
-
-    public enum InteractionType {Pc, Other};
-    public InteractionType currentType;
-    
-    public Canvas pcScreen;
-    
-    public TextMeshProUGUI interactionText;
+    public GameObject interactionText;
     public string targetScene;
     public bool locked;
     
 
     private void Start()
     {
-        if (pcScreen != null)
-        {
-            pcScreen.enabled = false;
-        }
-
-        if (targetScene == null)
-        {
-            targetScene = "none";
-        }
-        interactionText.enabled = false;
-        
+        targetScene ??= "none"; //dva otazníky znamenají, že pokud je vlevo null, přiřaď tomu to co je vlevo
+        interactionText.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && interactionText != null)
         {
-            interactionText.enabled = true;
+            interactionText.SetActive(true);
         }
         else
         { 
@@ -47,17 +30,9 @@ public class TriggerScript : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && currentType == InteractionType.Other && !locked && Input.GetKey(KeyCode.E) && targetScene != "none")
+        if (other.CompareTag("Player") && !locked && Input.GetKey(KeyCode.E) && targetScene != "none")
         {
             SceneManager.LoadScene(targetScene);
-        }
-        else if (other.CompareTag("Player") && currentType == InteractionType.Pc && Input.GetKey(KeyCode.E))
-        {
-            pcScreen.enabled = true;
-        }
-        else
-        {
-            Debug.Log("neco je null ig");
         }
     }
     
@@ -65,10 +40,7 @@ public class TriggerScript : MonoBehaviour
     {
         if (other.CompareTag("Player") && interactionText != null)
         {
-            if(InteractionType.Pc == currentType){
-                pcScreen.enabled = false;
-            }
-            interactionText.enabled = false;
+            interactionText.SetActive(false);
         }
         else
         { 
