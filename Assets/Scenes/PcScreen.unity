@@ -177,15 +177,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5176758919172050055, guid: 08a0188facae87248b98d2ad7e41dc71, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: 0.22407407
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5176758919172050055, guid: 08a0188facae87248b98d2ad7e41dc71, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 0.114583336
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5176758919172050055, guid: 08a0188facae87248b98d2ad7e41dc71, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 0.11458333
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -720,7 +720,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -167, y: 65.3}
+  m_AnchoredPosition: {x: -376, y: 159}
   m_SizeDelta: {x: 115.94, y: 115.98}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2047585068
