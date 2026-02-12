@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e08626fb8a56647bf9f1942584f6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacteController
-  speed: 10
+  speed: 6
   rb: {fileID: 7882356958131601150}
 --- !u!61 &1272351529647940860
 BoxCollider2D:
