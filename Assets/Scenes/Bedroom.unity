@@ -632,7 +632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TriggerScript
   interactionText: {fileID: 2067010497}
-  targetScene: PcScreen
+  targetScene: PcChoosePath
   locked: 0
 --- !u!1 &594265831
 GameObject:
