@@ -7,7 +7,7 @@ public class SetCareerPath : MonoBehaviour
     public void SetCareerPathFunc(string careerPath)
     {
         GlobalVariables.CareerPath = careerPath;
-        Debug.Log(careerPath);
+        GlobalVariables.HasCareer = true;
         SceneManager.LoadScene("Desktop");
     }
 }
