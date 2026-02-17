@@ -13,7 +13,7 @@ public class GlobalVariables : MonoBehaviour
     public static int Level = 1;
     public static int Xp;
 
-    private void CalcHourRate()
+    private static void CalcHourRate()
     {
         HourRate += Level switch
         {
@@ -26,11 +26,17 @@ public class GlobalVariables : MonoBehaviour
         };
     }
     
-    public void LevelUp()
+    public static void LevelUp()
     {
+        Level = (Xp / 150) < 1 ? 1 : Xp / 150;
+        if (Level % 10 == 0)
+        {
+            RaiseHourRate();
+        }
+    }
 
-        CheckXp();
-
+    private static void RaiseHourRate()
+    {
         switch (Level)
         {
             case 10:
@@ -38,10 +44,5 @@ public class GlobalVariables : MonoBehaviour
             case 30:
             case 40: CalcHourRate(); break;
         }
-    }
-
-    public static void CheckXp()
-    {
-        //TODO
     }
 }
