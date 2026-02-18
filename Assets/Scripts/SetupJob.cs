@@ -12,15 +12,15 @@ public class SetupJob : MonoBehaviour
     private int _jobMoney;
     private int _jobXp;
     
-    public void Setup(string jobType, int time, int money, int jobXp)
+    public void Setup(Job job)
     {
-        typeText.text = "Type of job: " + jobType;
-        timeText.text = "Time: " + time;
-        moneyText.text = "Money: " + money;
+        typeText.text = "Type of job: " + job.JobType;
+        timeText.text = "Time: " + job.JobTime;
+        moneyText.text = "Money: " + job.JobMoney;
         
-        _jobMoney = money;
-        _jobTime = time;
-        _jobXp = jobXp;
+        _jobMoney = job.JobMoney;
+        _jobTime = job.JobTime;
+        _jobXp = job.JobXp;
     }
     
     public void ActivateJob()

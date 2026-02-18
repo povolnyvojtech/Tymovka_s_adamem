@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GlobalVariables : MonoBehaviour
@@ -13,36 +14,11 @@ public class GlobalVariables : MonoBehaviour
     public static int Level = 1;
     public static int Xp;
 
-    private static void CalcHourRate()
-    {
-        HourRate += Level switch
-        {
-            >= 1 and <= 9 => 0,
-            >= 10 and <= 19 => 5,
-            >= 20 and <= 29 => 5,
-            >= 30 and < 39 => 5,
-            > 40 => 15,
-            _ => throw new ArgumentOutOfRangeException()
-        };
-    }
+    public static List<Job> JobOffers =  new List<Job>();
     
     public static void LevelUp()
     {
         Level = (Xp / 150) < 1 ? 1 : Xp / 150;
-        if (Level % 10 == 0)
-        {
-            RaiseHourRate();
-        }
-    }
-
-    private static void RaiseHourRate()
-    {
-        switch (Level)
-        {
-            case 10:
-            case 20:
-            case 30:
-            case 40: CalcHourRate(); break;
-        }
+        HourRate += (Level % 10 == 0) ? 5 : 0;
     }
 }

@@ -11,10 +11,11 @@ public class JobGenerator : MonoBehaviour
 {
     public GameObject jobPrefab;
     public Transform contentParent;
-    private string _jobType;
-    private const float RefreshInterval = 10f;
+    private string _jobType = "GDgodot";
+    private const float RefreshInterval = 20f;
     public TextMeshProUGUI timeTillReset;
     
+
     private void Start()
     {
         _jobType = GlobalVariables.CareerPath switch
@@ -33,39 +34,63 @@ public class JobGenerator : MonoBehaviour
 
     private void GenerateJobs(int count)
     {
-        for (int i = 0; i < count; i++)
+        if (GlobalVariables.JobOffers.Count == 0)
         {
-            if (_jobType != null)
+            for (int i = 0; i < count; i++)
             {
-                GameObject newJob = Instantiate(jobPrefab, contentParent);
-                int time = Random.Range(20,70); // v hodinach
-                int money = time * GlobalVariables.HourRate;
-                int xp = time * 3; //3 je random konstanta na násobení času k získání xp TODO
-                
-                newJob.GetComponent<SetupJob>().Setup(_jobType, time, money, xp);
+                if (_jobType != null)
+                {
+                    
+                    int time = Random.Range(1, 100); // v hodinach
+                    int money = time * GlobalVariables.HourRate;
+                    int xp = time * 3; //3 je random konstanta na násobení času k získání xp TODO
+                    
+                    
+                    GlobalVariables.JobOffers.Add(new Job(_jobType, time, money, xp));
+                }
             }
         }
     }
 
+    private void InitiateJobs()
+    {
+        foreach (Job job in GlobalVariables.JobOffers)
+        {
+            GameObject newJob = Instantiate(jobPrefab, contentParent);
+            newJob.GetComponent<SetupJob>().Setup(job);
+        }
+    }
+
+    
+    
+    
+    //TODO funkční timer i po zavření scény
+    
+    
+    
+    
+    
     // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator RestartJobOfferTimer()
     {
         while (true)
         {
-            ClearJobs();
             GenerateJobs(10);
-            
+            InitiateJobs();
+
+
             float timeLeft = RefreshInterval;
 
             while (timeLeft > 0)
             {
                 if (timeTillReset != null)
                 {
-                    CalcTime((int)Mathf.Round(timeLeft));
+                    CalcTime((int)Mathf.Round(timeLeft), timeTillReset, 0);
                 }
                 yield return null;
                 timeLeft -= Time.deltaTime;
             }
+            ClearJobs();
         }
     }
 
@@ -75,24 +100,25 @@ public class JobGenerator : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        GlobalVariables.JobOffers.Clear();
     }
 
-    private void CalcTime(int seconds)
+    public static void CalcTime(int seconds, TextMeshProUGUI timeTillReset, int type) //type - 0 reset, 1 jobTimer
     {
         if (seconds > 60 && seconds % 60 != 0)
         {
             int minutes = seconds / 60;
             int remainingSeconds = seconds % 60;
-            timeTillReset.text = "Reset in: " + minutes + " minutes " + remainingSeconds + " s";
+            timeTillReset.text = type == 0 ? "Reset in: " + minutes + " minutes " + remainingSeconds + " s" : "Remaining: " + minutes + " minutes " + remainingSeconds + " s";
         }
         else if (seconds % 60 == 0 && seconds != 0)
         {
             int minutes = seconds / 60;
-            timeTillReset.text = "Reset in: " + minutes + " minutes";
+            timeTillReset.text = type == 0 ? "Reset in: " + minutes + " minutes" : "Remaining: " + minutes + " minutes";
         }
         else
         {
-            timeTillReset.text = "Reset in: " + seconds + " s";
+            timeTillReset.text =  type == 0 ? "Reset in: " + seconds + "seconds": "Remaining: " + seconds + " seconds";
         }
     }
 }
