@@ -12,9 +12,7 @@ public class JobGenerator : MonoBehaviour
     public GameObject jobPrefab;
     public Transform contentParent;
     private string _jobType = "GDgodot";
-    private const float RefreshInterval = 20f;
     public TextMeshProUGUI timeTillReset;
-    
 
     private void Start()
     {
@@ -60,14 +58,6 @@ public class JobGenerator : MonoBehaviour
             newJob.GetComponent<SetupJob>().Setup(job);
         }
     }
-
-    
-    
-    
-    //TODO funkční timer i po zavření scény
-    
-    
-    
     
     
     // ReSharper disable Unity.PerformanceAnalysis
@@ -78,19 +68,18 @@ public class JobGenerator : MonoBehaviour
             GenerateJobs(10);
             InitiateJobs();
 
-
-            float timeLeft = RefreshInterval;
-
-            while (timeLeft > 0)
+            while (TimerManagerScript.JobOffersTimeLeft > 0)
             {
+                float timeLeft = TimerManagerScript.JobOffersTimeLeft;
                 if (timeTillReset != null)
                 {
-                    CalcTime((int)Mathf.Round(timeLeft), timeTillReset, 0);
+                    GlobalVariables.CalcTime((int)Mathf.Round(timeLeft), timeTillReset, 0);
                 }
                 yield return null;
-                timeLeft -= Time.deltaTime;
             }
+
             ClearJobs();
+            yield return new WaitUntil(() => TimerManagerScript.JobOffersTimeLeft > 0);
         }
     }
 
@@ -101,24 +90,5 @@ public class JobGenerator : MonoBehaviour
             Destroy(child.gameObject);
         }
         GlobalVariables.JobOffers.Clear();
-    }
-
-    public static void CalcTime(int seconds, TextMeshProUGUI timeTillReset, int type) //type - 0 reset, 1 jobTimer
-    {
-        if (seconds > 60 && seconds % 60 != 0)
-        {
-            int minutes = seconds / 60;
-            int remainingSeconds = seconds % 60;
-            timeTillReset.text = type == 0 ? "Reset in: " + minutes + " minutes " + remainingSeconds + " s" : "Remaining: " + minutes + " minutes " + remainingSeconds + " s";
-        }
-        else if (seconds % 60 == 0 && seconds != 0)
-        {
-            int minutes = seconds / 60;
-            timeTillReset.text = type == 0 ? "Reset in: " + minutes + " minutes" : "Remaining: " + minutes + " minutes";
-        }
-        else
-        {
-            timeTillReset.text =  type == 0 ? "Reset in: " + seconds + "seconds": "Remaining: " + seconds + " seconds";
-        }
     }
 }

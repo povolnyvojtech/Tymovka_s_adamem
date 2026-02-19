@@ -1,6 +1,5 @@
-using System.Collections;
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class JobManager : MonoBehaviour
 {
@@ -10,61 +9,43 @@ public class JobManager : MonoBehaviour
     public TextMeshProUGUI moneyText;
     public TextMeshProUGUI jobRemainingTimeStatsText;
     public TextMeshProUGUI jobMoneyStatsText;
-    private bool _hasJob;
 
     private void Awake()
     {
-        if (Instance == null) { Instance = this; }
-        else { Destroy(gameObject); }
-        UpdateStats();
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-    
-    private void UpdateStats()
+
+    private void Start()
     {
-        levelText.text = "Level: " + GlobalVariables.Level;
-        xpText.text = "Xp: " + GlobalVariables.Xp;
-        moneyText.text = "Money: " + GlobalVariables.Money;
+        RefreshUI();
     }
-    
-    private void UpdateJobStats()
+
+    private void Update()
     {
-        jobRemainingTimeStatsText.text = "You have no current job";
-        jobMoneyStatsText.text = "";
+        if (GlobalVariables.HasJob)
+        {
+            GlobalVariables.UpdateJobStats(TimerManagerScript.CurrentJobTimeLeft, jobRemainingTimeStatsText, jobMoneyStatsText, GlobalVariables.CurrentJobMoney);
+        }
     }
 
     public void StartContract(int jobTime, int jobMoney, int jobXp)
     {
-        if (_hasJob) return;
-        _hasJob = true;
-        StartCoroutine(JobRoutine(jobTime, jobMoney, jobXp));
-        StartCoroutine(JobTimer(jobTime));
-        jobMoneyStatsText.text = "Money: " + jobMoney;
+        if (GlobalVariables.HasJob) return;
+        GlobalVariables.HasJob = true;
+        GlobalVariables.CurrentJobMoney = jobMoney;
+        TimerManagerScript.Instance.StartCoroutine(TimerManagerScript.CurrentJobTimer(jobTime, jobMoney, jobXp));
     }
 
-    private IEnumerator JobRoutine(int seconds, int jobMoney, int jobXp)
+    public void RefreshUI()
     {
-        yield return new WaitForSeconds(seconds);
-        _hasJob = false;
-        UpdateJobStats();
-        GlobalVariables.Money += jobMoney;
-        GlobalVariables.Xp += jobXp;
-        GlobalVariables.LevelUp();
-        UpdateStats();
-    }
-    
-    private IEnumerator JobTimer(int jobTime)
-    {
-        float timeLeft = jobTime;
-
-        while (timeLeft > 0)
-        {
-            if (jobRemainingTimeStatsText)
-            {
-                JobGenerator.CalcTime((int)Mathf.Ceil(timeLeft), jobRemainingTimeStatsText, 1);
-            }
-
-            yield return null;
-            timeLeft -= Time.deltaTime;
-        }
+        GlobalVariables.UpdateStats(levelText, xpText, moneyText);
+        GlobalVariables.UpdateJobStats(TimerManagerScript.CurrentJobTimeLeft, jobRemainingTimeStatsText, jobMoneyStatsText, GlobalVariables.CurrentJobMoney);
     }
 }

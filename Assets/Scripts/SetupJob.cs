@@ -26,5 +26,6 @@ public class SetupJob : MonoBehaviour
     public void ActivateJob()
     {
         JobManager.Instance.StartContract(_jobTime, _jobMoney, _jobXp);
+        Destroy(gameObject);
     }
 }
