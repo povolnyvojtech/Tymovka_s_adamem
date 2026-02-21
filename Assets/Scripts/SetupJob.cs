@@ -8,19 +8,30 @@ public class SetupJob : MonoBehaviour
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI moneyText;
 
+    private Job _jobData;
     private int _jobTime;
     private int _jobMoney;
     private int _jobXp;
     
     public void Setup(Job job)
     {
-        typeText.text = "Type of job: " + job.JobType;
-        timeText.text = "Time: " + job.JobTime;
-        moneyText.text = "Money: " + job.JobMoney;
+        _jobData = job;
+        RefreshUI();
+    }
+    
+    public void RefreshUI()
+    {
+        if (_jobData == null) return;
+        float finalMoney = _jobData.JobTime * GlobalVariables.SpeedMultiplier;
+        float finalTime = _jobData.JobMoney * GlobalVariables.QualityMultiplier;
         
-        _jobMoney = job.JobMoney;
-        _jobTime = job.JobTime;
-        _jobXp = job.JobXp;
+        typeText.text = "Type of job: " + _jobData.JobType;
+        timeText.text = "Time: " + _jobData.JobTime + " * SM("+GlobalVariables.SpeedMultiplier + ") => " + finalMoney;
+        moneyText.text = "Money: " + _jobData.JobMoney + " * QM(" + GlobalVariables.QualityMultiplier + ") => " + finalTime;
+        
+        _jobMoney = (int)finalMoney;
+        _jobTime = (int)finalTime;
+        _jobXp = _jobData.JobXp;
     }
     
     public void ActivateJob()

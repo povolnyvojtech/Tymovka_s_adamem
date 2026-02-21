@@ -39,7 +39,7 @@ public class TimerManagerScript : MonoBehaviour
 
     public static IEnumerator CurrentJobTimer(int jobTime, int jobMoney, int jobXp)
     {
-        CurrentJobTimeLeft = jobTime;
+        CurrentJobTimeLeft = jobTime * GlobalVariables.SpeedMultiplier;
 
         while (CurrentJobTimeLeft > 0)
         {
@@ -48,7 +48,7 @@ public class TimerManagerScript : MonoBehaviour
         }
         
         GlobalVariables.HasJob = false;
-        GlobalVariables.Money += jobMoney;
+        GlobalVariables.Money += (int)Mathf.Round(jobMoney * GlobalVariables.QualityMultiplier);
         GlobalVariables.Xp += jobXp;
         GlobalVariables.LevelUp();
         

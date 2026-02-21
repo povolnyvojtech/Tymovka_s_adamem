@@ -9,11 +9,17 @@ using Random = UnityEngine.Random;
 
 public class JobGenerator : MonoBehaviour
 {
+    public static JobGenerator Instance;
     public GameObject jobPrefab;
     public Transform contentParent;
     private string _jobType = "GDgodot";
     public TextMeshProUGUI timeTillReset;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+    
     private void Start()
     {
         _jobType = GlobalVariables.CareerPath switch
@@ -29,7 +35,19 @@ public class JobGenerator : MonoBehaviour
         };
         StartCoroutine(RestartJobOfferTimer());
     }
-
+    
+    public void RefreshAllJobsUI()
+    {
+        foreach (Transform child in contentParent)
+        {
+            SetupJob setupJob = child.GetComponent<SetupJob>();
+            if (setupJob != null)
+            {
+                setupJob.RefreshUI();
+            }
+        }
+    }
+    
     private void GenerateJobs(int count)
     {
         if (GlobalVariables.JobOffers.Count == 0)

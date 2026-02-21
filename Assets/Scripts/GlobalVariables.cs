@@ -6,11 +6,22 @@ using UnityEngine;
 public class GlobalVariables : MonoBehaviour
 {
     public static int HallBgLevel = 0;
+    public static int CurrentHallBgUpgradeCost = 600;
     public static int BedroomBgLevel = 0;
+    public static int CurrentBedroomBgUpgradeCost = 500;
+
+    public static int QualityLevel = 0;
+    public static float QualityMultiplier = 1f;
+    public static int SpeedLevel = 0;
+    public static float SpeedMultiplier = 1f;
+    public static bool IsPracticing = false;
+    public static int QualityPractisingTime = 20;
+    public static int SpeedPractisingTime = 20;
+    
     public static bool HasCareer = false;
     public static string CareerPath = "None"; //vždy formát - TYPPROFESEzamereni - GDgodot 
 
-    public static int Money = 1000;
+    public static int Money = 450;
     
     public static int HourRate = 10; //- hodinova sazba (cim vetsi Level, tim vetsi sazba)
     public static int Level = 1;
