@@ -804,14 +804,13 @@ GameObject:
   - component: {fileID: 194598351}
   - component: {fileID: 194598350}
   - component: {fileID: 194598349}
-  - component: {fileID: 194598353}
   m_Layer: 5
   m_Name: PractiseCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &194598349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -897,18 +896,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!225 &194598353
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194598348}
-  m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &212894988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,7 +1262,7 @@ GameObject:
   - component: {fileID: 289851821}
   - component: {fileID: 289851820}
   - component: {fileID: 289851819}
-  - component: {fileID: 289851818}
+  - component: {fileID: 289851822}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1303,22 +1290,6 @@ RectTransform:
   m_AnchoredPosition: {x: 231, y: -0.0000019073}
   m_SizeDelta: {x: 109.73, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &289851818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 289851816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3b10ae51a7336a4ea586e271f894c20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Practise
-  practiceType: 0
-  levelText: {fileID: 948778880}
-  buttonText: {fileID: 1232691061}
-  practiseFinishedCanvas: {fileID: 1566316350}
 --- !u!114 &289851819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1401,6 +1372,70 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 289851816}
   m_CullTransparentMesh: 1
+--- !u!114 &289851822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289851816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1221be59f6392eb4fa52fae791fb07bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonCreateCall
+  practiceType: 0
+--- !u!1 &352296047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 352296049}
+  - component: {fileID: 352296048}
+  m_Layer: 0
+  m_Name: PracticeCanvasManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &352296048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352296047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdd792d31452ffa408d7237d7943dd03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  qualityUpgradeButton: {fileID: 289851819}
+  qualityLevelText: {fileID: 948778880}
+  qualityButtonText: {fileID: 1232691061}
+  speedUpgradeButton: {fileID: 809357513}
+  speedLevelText: {fileID: 1688705037}
+  speedButtonText: {fileID: 673401752}
+  finishedCanvas: {fileID: 1566316350}
+--- !u!4 &352296049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352296047}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.72867, y: -0.07058, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &387716790
 GameObject:
   m_ObjectHideFlags: 0
@@ -2771,6 +2806,7 @@ GameObject:
   - component: {fileID: 673401751}
   - component: {fileID: 673401753}
   - component: {fileID: 673401752}
+  - component: {fileID: 673401754}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2897,6 +2933,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673401750}
   m_CullTransparentMesh: 1
+--- !u!114 &673401754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673401750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1a236015b3d0e46b1807db7a06afff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTextCreateCall
+  practiceType: 1
 --- !u!1001 &684033082
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3382,7 +3431,7 @@ GameObject:
   - component: {fileID: 809357515}
   - component: {fileID: 809357514}
   - component: {fileID: 809357513}
-  - component: {fileID: 809357512}
+  - component: {fileID: 809357516}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -3410,22 +3459,6 @@ RectTransform:
   m_AnchoredPosition: {x: 231, y: -0.0000019073}
   m_SizeDelta: {x: 109.73, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &809357512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 809357510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3b10ae51a7336a4ea586e271f894c20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Practise
-  practiceType: 1
-  levelText: {fileID: 1688705037}
-  buttonText: {fileID: 673401752}
-  practiseFinishedCanvas: {fileID: 1566316350}
 --- !u!114 &809357513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3508,6 +3541,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 809357510}
   m_CullTransparentMesh: 1
+--- !u!114 &809357516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809357510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1221be59f6392eb4fa52fae791fb07bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonCreateCall
+  practiceType: 1
 --- !u!1 &824304421
 GameObject:
   m_ObjectHideFlags: 0
@@ -3989,6 +4035,7 @@ GameObject:
   - component: {fileID: 948778882}
   - component: {fileID: 948778881}
   - component: {fileID: 948778880}
+  - component: {fileID: 948778883}
   m_Layer: 5
   m_Name: LevelText
   m_TagString: Untagged
@@ -4115,6 +4162,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 163.62, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &948778883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948778879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1665cd4b3cb0d664596f201b3467de4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelTextCreateCall
+  practiceType: 0
 --- !u!1 &957657212
 GameObject:
   m_ObjectHideFlags: 0
@@ -4437,10 +4497,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 289851818}
-        m_TargetAssemblyTypeName: Practise, Assembly-CSharp
-        m_MethodName: UIVisibilityManager
-        m_Mode: 1
+      - m_Target: {fileID: 194598348}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5274,10 +5334,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 289851818}
-        m_TargetAssemblyTypeName: Practise, Assembly-CSharp
-        m_MethodName: UIVisibilityManager
-        m_Mode: 1
+      - m_Target: {fileID: 194598348}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5335,6 +5395,7 @@ GameObject:
   - component: {fileID: 1232691060}
   - component: {fileID: 1232691062}
   - component: {fileID: 1232691061}
+  - component: {fileID: 1232691063}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -5461,6 +5522,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232691059}
   m_CullTransparentMesh: 1
+--- !u!114 &1232691063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232691059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1a236015b3d0e46b1807db7a06afff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTextCreateCall
+  practiceType: 0
 --- !u!1 &1244072532
 GameObject:
   m_ObjectHideFlags: 0
@@ -6749,7 +6823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1566316351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7155,6 +7229,7 @@ GameObject:
   - component: {fileID: 1688705039}
   - component: {fileID: 1688705038}
   - component: {fileID: 1688705037}
+  - component: {fileID: 1688705040}
   m_Layer: 5
   m_Name: LevelText
   m_TagString: Untagged
@@ -7281,6 +7356,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 165.63, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1688705040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688705036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1665cd4b3cb0d664596f201b3467de4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelTextCreateCall
+  practiceType: 1
 --- !u!1 &1721045732
 GameObject:
   m_ObjectHideFlags: 0
@@ -8728,3 +8816,4 @@ SceneRoots:
   - {fileID: 1277606201}
   - {fileID: 1392781012}
   - {fileID: 684033082}
+  - {fileID: 352296049}

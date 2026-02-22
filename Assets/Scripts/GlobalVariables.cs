@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using TMPro;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ public class GlobalVariables : MonoBehaviour
     public static bool IsPracticing = false;
     public static int QualityPractisingTime = 20;
     public static int SpeedPractisingTime = 20;
+    public static bool CurrentPracticeCanvasState = false;
     
     public static bool HasCareer = false;
     public static string CareerPath = "None"; //vždy formát - TYPPROFESEzamereni - GDgodot 
@@ -31,6 +33,7 @@ public class GlobalVariables : MonoBehaviour
 
     public static bool HasJob = false;
     public static int CurrentJobMoney;
+    
     
     public static void LevelUp()
     {
