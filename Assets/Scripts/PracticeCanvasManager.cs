@@ -78,7 +78,10 @@ public class PracticeCanvasManager : MonoBehaviour
         GlobalVariables.QualityMultiplier += 0.1f;
         --GlobalVariables.QualityPractisingTime;
         GlobalVariables.IsPracticing = false;
-        finishedCanvas.SetActive(true);
+        if (finishedCanvas)
+        {
+            finishedCanvas.SetActive(true);
+        }
         
     }
 
@@ -87,7 +90,10 @@ public class PracticeCanvasManager : MonoBehaviour
         speedLevelText.text = "Level " + (++GlobalVariables.SpeedLevel + 1);
         if ((GlobalVariables.SpeedMultiplier -= 0.07f) > 0) GlobalVariables.SpeedMultiplier -= 0.07f;
         --GlobalVariables.SpeedPractisingTime;
-        finishedCanvas.SetActive(true);
+        if (finishedCanvas)
+        {
+            finishedCanvas.SetActive(true);
+        }
     }
 
     private void CheckPracticeLevel()
