@@ -18,7 +18,6 @@ public class GlobalVariables : MonoBehaviour
     public static bool IsPracticing = false;
     public static int QualityPractisingTime = 20;
     public static int SpeedPractisingTime = 20;
-    public static bool CurrentPracticeCanvasState = false;
     
     public static bool HasCareer = false;
     public static string CareerPath = "None"; //vždy formát - TYPPROFESEzamereni - GDgodot 
@@ -59,6 +58,19 @@ public class GlobalVariables : MonoBehaviour
         jobRemainingTimeStatsText.text = "You have no current job";
         jobMoneyStatsText.text = "";
     }
+    
+    public static void UpdatePracticeStats(float currentJobTimeLeft, TextMeshProUGUI practiceRemainingTimeStatsText)
+    {
+        if (currentJobTimeLeft > 0 && practiceRemainingTimeStatsText && IsPracticing)
+        {
+            CalcTime((int)Mathf.Round(currentJobTimeLeft), practiceRemainingTimeStatsText, 1);
+            //TODO reward
+            return;
+        }
+        practiceRemainingTimeStatsText.text = "You are not practicing at the moment";
+    }
+    
+    
     
     public static void CalcTime(int seconds, TextMeshProUGUI timeTillReset, int type) //type - 0 reset, 1 jobTimer
     {

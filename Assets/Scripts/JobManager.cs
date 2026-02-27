@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.TextCore.LowLevel;
 
 public class JobManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class JobManager : MonoBehaviour
     public TextMeshProUGUI moneyText;
     public TextMeshProUGUI jobRemainingTimeStatsText;
     public TextMeshProUGUI jobMoneyStatsText;
+    public TextMeshProUGUI practiceRemainingTimeStatsText;
 
     private void Awake()
     {
@@ -33,6 +35,11 @@ public class JobManager : MonoBehaviour
         {
             GlobalVariables.UpdateJobStats(TimerManagerScript.CurrentJobTimeLeft, jobRemainingTimeStatsText, jobMoneyStatsText, GlobalVariables.CurrentJobMoney);
         }
+
+        if (GlobalVariables.IsPracticing)
+        {
+            GlobalVariables.UpdatePracticeStats(TimerManagerScript.PracticingTimeLeft, practiceRemainingTimeStatsText);
+        }
     }
 
     public void StartContract(int jobTime, int jobMoney, int jobXp)
@@ -47,5 +54,6 @@ public class JobManager : MonoBehaviour
     {
         GlobalVariables.UpdateStats(levelText, xpText, moneyText);
         GlobalVariables.UpdateJobStats(TimerManagerScript.CurrentJobTimeLeft, jobRemainingTimeStatsText, jobMoneyStatsText, GlobalVariables.CurrentJobMoney);
+        GlobalVariables.UpdatePracticeStats(TimerManagerScript.PracticingTimeLeft, practiceRemainingTimeStatsText);
     }
 }

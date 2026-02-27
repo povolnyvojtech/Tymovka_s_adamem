@@ -60,6 +60,7 @@ public class PracticeCanvasManager : MonoBehaviour
         if (GlobalVariables.IsPracticing) return;
         GlobalVariables.IsPracticing = true;
         CheckPracticeLevel();
+        StartCoroutine(TimerManagerScript.PracticingTimer(0));
         StartCoroutine(QualityPractisingTimer());
     }
     
@@ -68,6 +69,7 @@ public class PracticeCanvasManager : MonoBehaviour
         if (GlobalVariables.IsPracticing) return;
         GlobalVariables.IsPracticing = true;
         CheckPracticeLevel();
+        StartCoroutine(TimerManagerScript.PracticingTimer(1));
         StartCoroutine(SpeedPractisingTimer());
     }
     

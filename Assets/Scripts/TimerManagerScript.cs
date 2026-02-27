@@ -7,6 +7,7 @@ public class TimerManagerScript : MonoBehaviour
     private const float RefreshInterval = 20f;
     public static float JobOffersTimeLeft;
     public static float CurrentJobTimeLeft;
+    public static float PracticingTimeLeft;
     
     private void Awake()
     {
@@ -52,7 +53,27 @@ public class TimerManagerScript : MonoBehaviour
         GlobalVariables.Xp += jobXp;
         GlobalVariables.LevelUp();
         
-        if (JobManager.Instance != null)
+        if (JobManager.Instance)
+        {
+            JobManager.Instance.RefreshUI();
+        }
+    }
+
+    public static IEnumerator PracticingTimer(int practiceType) //0 - quality, 1 - speed
+    {
+        switch (practiceType)
+        {
+            case 0: PracticingTimeLeft = GlobalVariables.QualityPractisingTime; break;
+            case 1: PracticingTimeLeft = GlobalVariables.SpeedPractisingTime; break;
+        }
+
+        while (PracticingTimeLeft > 0)
+        {
+            yield return null;
+            PracticingTimeLeft -= Time.deltaTime;
+        }
+
+        if (JobManager.Instance)
         {
             JobManager.Instance.RefreshUI();
         }
