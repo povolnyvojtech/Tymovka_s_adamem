@@ -11,6 +11,7 @@ public class JobManager : MonoBehaviour
     public TextMeshProUGUI jobRemainingTimeStatsText;
     public TextMeshProUGUI jobMoneyStatsText;
     public TextMeshProUGUI practiceRemainingTimeStatsText;
+    public TextMeshProUGUI practiceRewardStatsText;
 
     private void Awake()
     {
@@ -38,7 +39,7 @@ public class JobManager : MonoBehaviour
 
         if (GlobalVariables.IsPracticing)
         {
-            GlobalVariables.UpdatePracticeStats(TimerManagerScript.PracticingTimeLeft, practiceRemainingTimeStatsText);
+            GlobalVariables.UpdatePracticeStats(TimerManagerScript.PracticingTimeLeft, practiceRemainingTimeStatsText, practiceRewardStatsText, GlobalVariables.CurrentPracticingType);
         }
     }
 
@@ -54,6 +55,6 @@ public class JobManager : MonoBehaviour
     {
         GlobalVariables.UpdateStats(levelText, xpText, moneyText);
         GlobalVariables.UpdateJobStats(TimerManagerScript.CurrentJobTimeLeft, jobRemainingTimeStatsText, jobMoneyStatsText, GlobalVariables.CurrentJobMoney);
-        GlobalVariables.UpdatePracticeStats(TimerManagerScript.PracticingTimeLeft, practiceRemainingTimeStatsText);
+        GlobalVariables.UpdatePracticeStats(TimerManagerScript.PracticingTimeLeft, practiceRemainingTimeStatsText, practiceRewardStatsText, GlobalVariables.CurrentPracticingType);
     }
 }

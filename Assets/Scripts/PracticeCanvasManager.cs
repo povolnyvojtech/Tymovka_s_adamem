@@ -33,8 +33,8 @@ public class PracticeCanvasManager : MonoBehaviour
     
     private void Start()
     {
-        qualityLevelText.text = "Level " + (GlobalVariables.QualityLevel + 1);
-        speedLevelText.text = "Level " + (GlobalVariables.SpeedLevel + 1);
+        qualityLevelText.text = "Level " + (GlobalVariables.QualityLevel);
+        speedLevelText.text = "Level " + (GlobalVariables.SpeedLevel);
     }
 
     public void SetButtonListener(Button button, int type)
@@ -50,25 +50,34 @@ public class PracticeCanvasManager : MonoBehaviour
     {
         switch (type)
         {
-            case 0: levelText.text = "Level " + (GlobalVariables.QualityLevel + 1); break;
-            case 1: levelText.text = "Level " + (GlobalVariables.SpeedLevel + 1); break;
+            case 0: levelText.text = "Level " + (GlobalVariables.QualityLevel); break;
+            case 1: levelText.text = "Level " + (GlobalVariables.SpeedLevel); break;
+        }
+    }
+    
+    public void RefreshButtonText(TextMeshProUGUI buttonText, int type)
+    {
+        switch (type)
+        {
+            case 0: buttonText.text = GlobalVariables.QualityLevel == 10 ? "MAX" : "Practice"; break;
+            case 1: buttonText.text = GlobalVariables.SpeedLevel == 10 ? "MAX" : "Practice"; break;
         }
     }
     
     private void RaiseQualityMultiplier()
     {
-        if (GlobalVariables.IsPracticing) return;
+        if (GlobalVariables.IsPracticing || GlobalVariables.QualityLevel == 10) return;
         GlobalVariables.IsPracticing = true;
-        CheckPracticeLevel();
+        GlobalVariables.CurrentPracticingType = 0;
         StartCoroutine(TimerManagerScript.PracticingTimer(0));
         StartCoroutine(QualityPractisingTimer());
     }
     
     private void RaiseSpeedMultiplier()
     {
-        if (GlobalVariables.IsPracticing) return;
+        if (GlobalVariables.IsPracticing || GlobalVariables.SpeedLevel== 10) return;
         GlobalVariables.IsPracticing = true;
-        CheckPracticeLevel();
+        GlobalVariables.CurrentPracticingType = 1;
         StartCoroutine(TimerManagerScript.PracticingTimer(1));
         StartCoroutine(SpeedPractisingTimer());
     }
@@ -76,7 +85,9 @@ public class PracticeCanvasManager : MonoBehaviour
     private IEnumerator QualityPractisingTimer()
     {
         yield return new WaitForSeconds(GlobalVariables.QualityPractisingTime);
-        qualityLevelText.text = "Level " + (++GlobalVariables.QualityLevel + 1);
+        GlobalVariables.CurrentPracticingType = 2;
+        qualityLevelText.text = "Level " + (++GlobalVariables.QualityLevel);
+        RefreshButtonText(qualityButtonText, 0);
         GlobalVariables.QualityMultiplier += 0.1f;
         --GlobalVariables.QualityPractisingTime;
         GlobalVariables.IsPracticing = false;
@@ -89,24 +100,14 @@ public class PracticeCanvasManager : MonoBehaviour
 
     private IEnumerator SpeedPractisingTimer(){
         yield return new WaitForSeconds(GlobalVariables.SpeedPractisingTime);
-        speedLevelText.text = "Level " + (++GlobalVariables.SpeedLevel + 1);
+        GlobalVariables.CurrentPracticingType = 2;
+        speedLevelText.text = "Level " + (++GlobalVariables.SpeedLevel);
+        RefreshButtonText(speedButtonText, 1);
         if ((GlobalVariables.SpeedMultiplier -= 0.07f) > 0) GlobalVariables.SpeedMultiplier -= 0.07f;
         --GlobalVariables.SpeedPractisingTime;
         if (finishedCanvas)
         {
             finishedCanvas.SetActive(true);
-        }
-    }
-
-    private void CheckPracticeLevel()
-    {
-        if (GlobalVariables.QualityLevel == 10)
-        {
-            qualityButtonText.text = "MAX";
-        }
-        if (GlobalVariables.SpeedLevel == 10)
-        {
-            speedButtonText.text = "MAX";
         }
     }
 }

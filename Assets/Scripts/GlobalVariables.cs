@@ -11,13 +11,14 @@ public class GlobalVariables : MonoBehaviour
     public static int BedroomBgLevel = 0;
     public static int CurrentBedroomBgUpgradeCost = 500;
 
-    public static int QualityLevel = 0;
+    public static int QualityLevel = 1;
     public static float QualityMultiplier = 1f;
-    public static int SpeedLevel = 0;
+    public static int SpeedLevel = 1;
     public static float SpeedMultiplier = 1f;
     public static bool IsPracticing = false;
     public static int QualityPractisingTime = 20;
     public static int SpeedPractisingTime = 20;
+    public static int CurrentPracticingType = 2;
     
     public static bool HasCareer = false;
     public static string CareerPath = "None"; //vždy formát - TYPPROFESEzamereni - GDgodot 
@@ -25,7 +26,7 @@ public class GlobalVariables : MonoBehaviour
     public static int Money = 450;
     
     public static int HourRate = 10; //- hodinova sazba (cim vetsi Level, tim vetsi sazba)
-    public static int Level = 1;
+    private static int _level = 1;
     public static int Xp;
     
     public static List<Job> JobOffers =  new List<Job>();
@@ -36,13 +37,13 @@ public class GlobalVariables : MonoBehaviour
     
     public static void LevelUp()
     {
-        Level = (Xp / 150) < 1 ? 1 : Xp / 150;
-        HourRate += (Level % 10 == 0) ? 5 : 0;
+        _level = (Xp / 150) < 1 ? 1 : Xp / 150;
+        HourRate += (_level % 10 == 0) ? 5 : 0;
     }
     
     public static void UpdateStats(TextMeshProUGUI levelText, TextMeshProUGUI xpText, TextMeshProUGUI moneyText)
     {
-        levelText.text = "Level: " + Level;
+        levelText.text = "Level: " + _level;
         xpText.text = "Xp: " + Xp;
         moneyText.text = "Money: " + Money;
     }
@@ -59,15 +60,22 @@ public class GlobalVariables : MonoBehaviour
         jobMoneyStatsText.text = "";
     }
     
-    public static void UpdatePracticeStats(float currentJobTimeLeft, TextMeshProUGUI practiceRemainingTimeStatsText)
+    public static void UpdatePracticeStats(float practiceTimeLeft, TextMeshProUGUI practiceRemainingTimeStatsText, TextMeshProUGUI practiceRewardStatsText, int practiceType) //type - 0 - quality, 1 - speed, 2 - nothing 
     {
-        if (currentJobTimeLeft > 0 && practiceRemainingTimeStatsText && IsPracticing)
+        if (practiceTimeLeft > 0 && practiceRemainingTimeStatsText && IsPracticing)
         {
-            CalcTime((int)Mathf.Round(currentJobTimeLeft), practiceRemainingTimeStatsText, 1);
-            //TODO reward
+            CalcTime((int)Mathf.Round(practiceTimeLeft), practiceRemainingTimeStatsText, 1);
+            practiceRewardStatsText.text = practiceType switch
+            {
+                0 => "Reward: Quality multiplier -> " + (QualityMultiplier + 0.1f),
+                1 => "Reward: Speed multiplier -> " + (SpeedMultiplier - 0.07f),
+                2 => "",
+                _ => throw new ArgumentOutOfRangeException(nameof(practiceType), practiceType, null)
+            };
             return;
         }
         practiceRemainingTimeStatsText.text = "You are not practicing at the moment";
+        practiceRewardStatsText.text = "";
     }
     
     

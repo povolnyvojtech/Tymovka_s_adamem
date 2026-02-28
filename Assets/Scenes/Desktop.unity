@@ -366,6 +366,7 @@ MonoBehaviour:
   jobRemainingTimeStatsText: {fileID: 1885135301}
   jobMoneyStatsText: {fileID: 966184763}
   practiceRemainingTimeStatsText: {fileID: 278419789}
+  practiceRewardStatsText: {fileID: 182147418}
 --- !u!4 &52661532
 Transform:
   m_ObjectHideFlags: 0

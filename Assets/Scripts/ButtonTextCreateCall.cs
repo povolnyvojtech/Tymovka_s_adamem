@@ -8,8 +8,8 @@ public class ButtonTextCreateCall : MonoBehaviour
     {
         switch (practiceType)
         {
-            case 0: PracticeCanvasManager.Instance.qualityButtonText = GetComponent<TextMeshProUGUI>(); break;
-            case 1: PracticeCanvasManager.Instance.speedButtonText = GetComponent<TextMeshProUGUI>(); break;
+            case 0: PracticeCanvasManager.Instance.qualityButtonText = GetComponent<TextMeshProUGUI>(); PracticeCanvasManager.Instance.RefreshButtonText(GetComponent<TextMeshProUGUI>(), 0); break;
+            case 1: PracticeCanvasManager.Instance.speedButtonText = GetComponent<TextMeshProUGUI>(); PracticeCanvasManager.Instance.RefreshButtonText(GetComponent<TextMeshProUGUI>(), 1); break;
         }
     }
 }
