@@ -22,12 +22,12 @@ public class SetupJob : MonoBehaviour
     public void RefreshUI()
     {
         if (_jobData == null) return;
-        float finalMoney = _jobData.JobTime * GlobalVariables.SpeedMultiplier;
-        float finalTime = _jobData.JobMoney * GlobalVariables.QualityMultiplier;
+        float finalTime = _jobData.JobTime * GlobalVariables.SpeedMultiplier;
+        float finalMoney = _jobData.JobMoney * GlobalVariables.QualityMultiplier;
         
         typeText.text = "Type of job: " + _jobData.JobType;
-        timeText.text = "Time: " + _jobData.JobTime + " * SM("+GlobalVariables.SpeedMultiplier + ") => " + finalMoney;
-        moneyText.text = "Money: " + _jobData.JobMoney + " * QM(" + GlobalVariables.QualityMultiplier + ") => " + finalTime;
+        timeText.text = "Time: " + _jobData.JobTime + " * SM("+GlobalVariables.SpeedMultiplier + ") => " + finalTime;
+        moneyText.text = "Money: " + _jobData.JobMoney + " * QM(" + GlobalVariables.QualityMultiplier + ") => " + finalMoney;
         
         _jobMoney = (int)finalMoney;
         _jobTime = (int)finalTime;
