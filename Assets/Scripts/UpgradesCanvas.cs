@@ -3,17 +3,55 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIDraggablePanel : MonoBehaviour, IPointerDownHandler, IDragHandler
+public class UpgradesCanvas : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
     private RectTransform _rectTransform;
     private Canvas _canvas;
     private Vector2 _offset;
     
+    public GameObject houseManagerDisplay;
+    public GameObject skillTreeDisplay;
+    private bool _currentDisplayType; //true - houseManager, false - skillTree
+    private bool _buttonPressed;
+    public Button houseManagerButton;
+    private Image _houseManagerButtonImageComponent;
+    public Button skillTreeButton;
+    private Image _skillTreeButtonImageComponent;
+    
     void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
         _canvas = GetComponentInParent<Canvas>();
+        _houseManagerButtonImageComponent = houseManagerButton.GetComponent<Image>();
+        _skillTreeButtonImageComponent = skillTreeButton.GetComponent<Image>();
+        houseManagerButton.onClick.AddListener((() => RefreshUI(true)));
+        skillTreeButton.onClick.AddListener((() => RefreshUI(false)));
+        RefreshUI(true);
     }
+
+    public void RefreshUI(bool type)
+    {
+        if (type == _currentDisplayType) return;
+        _currentDisplayType = !_currentDisplayType;
+        switch (_currentDisplayType)
+        {
+            case true:
+            {
+                houseManagerDisplay.SetActive(true);
+                _houseManagerButtonImageComponent.color = new Color(200, 200, 200);
+                _skillTreeButtonImageComponent.color = new Color(255,255,255);
+                skillTreeDisplay.SetActive(false); break;
+            }
+            case false:
+            {
+                skillTreeDisplay.SetActive(true); 
+                _skillTreeButtonImageComponent.color = new Color(200, 200, 200);  
+                _houseManagerButtonImageComponent.color = new Color(255,255,255);
+                houseManagerDisplay.SetActive(false); break;
+            }
+        }
+    }
+    
 
     public void OnPointerDown(PointerEventData eventData)
     {

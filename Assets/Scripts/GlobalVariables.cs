@@ -23,7 +23,7 @@ public class GlobalVariables : MonoBehaviour
     public static bool HasCareer = false;
     public static string CareerPath = "None"; //vždy formát - TYPPROFESEzamereni - GDgodot 
 
-    public static int Money = 1000;
+    public static int Money = 450;
     
     public static int HourRate = 10; //- hodinova sazba (cim vetsi Level, tim vetsi sazba)
     private static int _level = 1;
