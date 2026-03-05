@@ -33,7 +33,16 @@ public class GlobalVariables : MonoBehaviour
 
     public static bool HasJob = false;
     public static int CurrentJobMoney;
-    
+
+    public static float GymLevel = 1; //TODO bude reprezentovano pomoci takovyho baru kde bude vyznaceno jak na tom je
+    public static float OverallLook = 1; //TODO to stejny jak GymLevel
+    public static float ChanceToGetHoes; //TODO nějaká formula pomocí GymLevelu, rizzu, OverallLooku, zkušeností
+
+
+    public static void CalculateChanceToGetGirls()
+    {
+        ChanceToGetHoes = GymLevel + OverallLook + (HasJob ?  1 : 0) + Money + HallBgLevel + BedroomBgLevel; // hodnota musí být mezi 0 a 100 TODO domyslet rovnici
+    }
     
     public static void LevelUp()
     {
