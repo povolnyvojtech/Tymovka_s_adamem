@@ -12,7 +12,9 @@ public class TooltipDisplayer : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public float value;
     private int _state = 0; //0 - zamceny, 1 - nesplněný, 2 - hotový
     public bool firstButton;
+    public bool lastButton;
     public TooltipDisplayer previousButton;
+    public TooltipDisplayer nextButton;
 
     private void Start()
     {
@@ -26,7 +28,13 @@ public class TooltipDisplayer : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void UnlockNext()
     {
         if (previousButton == null || previousButton._state != 2) return;
-        _state = 1;
+        if (lastButton && _state != 2)
+        {
+            _state = 1;
+            ChangeText();
+            return;
+        }
+        _state = nextButton._state != 0 ? 2 : 1;
         ChangeText();
     }
     
