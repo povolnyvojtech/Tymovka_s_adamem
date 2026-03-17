@@ -1,17 +1,19 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SetupJob : MonoBehaviour
 {
     public TextMeshProUGUI typeText;
-    public TextMeshProUGUI timeText;
+    //public TextMeshProUGUI timeText;
     public TextMeshProUGUI moneyText;
 
     private Job _jobData;
     private int _jobTime;
     private int _jobMoney;
     private int _jobXp;
+    
     
     public void Setup(Job job)
     {
@@ -25,18 +27,18 @@ public class SetupJob : MonoBehaviour
         float finalTime = _jobData.JobTime * GlobalVariables.SpeedMultiplier;
         float finalMoney = _jobData.JobMoney * GlobalVariables.QualityMultiplier;
         
-        typeText.text = "Type of job: " + _jobData.JobType;
-        timeText.text = "Time: " + _jobData.JobTime + " * SM("+GlobalVariables.SpeedMultiplier + ") => " + finalTime;
-        moneyText.text = "Money: " + _jobData.JobMoney + " * QM(" + GlobalVariables.QualityMultiplier + ") => " + finalMoney;
+        typeText.text = _jobData.JobType;
+        moneyText.text = "Money: " + finalMoney;
         
         _jobMoney = (int)finalMoney;
         _jobTime = (int)finalTime;
         _jobXp = _jobData.JobXp;
     }
     
-    public void ActivateJob()
+    public void ShowContractStats()
     {
-        JobManager.Instance.StartContract(_jobTime, _jobMoney, _jobXp);
-        Destroy(gameObject);
+        GlobalVariables.JobGameObject = GetComponent<Button>();
+        DisplayContractInfo.Instance.DisplayStats(_jobTime, _jobMoney, _jobXp, _jobData.JobType, 0);
+        GlobalVariables.CurrentJob = _jobData;
     }
 }
