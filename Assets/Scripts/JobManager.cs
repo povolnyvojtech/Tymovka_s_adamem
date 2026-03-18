@@ -47,6 +47,7 @@ public class JobManager : MonoBehaviour
     {
         if (GlobalVariables.HasJob) return;
         GlobalVariables.HasJob = true;
+        Debug.Log("Starting contract - has a job");
         GlobalVariables.CurrentJobMoney = jobMoney;
         TimerManagerScript.Instance.StartCoroutine(TimerManagerScript.CurrentJobTimer(jobTime, jobMoney, jobXp));
     }

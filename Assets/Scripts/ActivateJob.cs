@@ -4,8 +4,9 @@ public class ActivateJob : MonoBehaviour
 {
     public void ActivateJobFun()
     {
-        Debug.Log(GlobalVariables.JobGameObject);
+        if (GlobalVariables.HasJob) return;
         Destroy(GlobalVariables.JobGameObject);
+        DisplayContractInfo.Instance.ClearJobInfo();
         JobManager.Instance.StartContract(GlobalVariables.CurrentJob.JobTime, GlobalVariables.CurrentJob.JobMoney, GlobalVariables.CurrentJob.JobXp);
     }
 }

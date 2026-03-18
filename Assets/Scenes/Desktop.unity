@@ -14040,6 +14040,7 @@ MonoBehaviour:
   timeText: {fileID: 575645516}
   xpText: {fileID: 941709896}
   moneyText: {fileID: 1493941841}
+  startContractButton: {fileID: 234503608}
 --- !u!114 &2054781202
 MonoBehaviour:
   m_ObjectHideFlags: 0

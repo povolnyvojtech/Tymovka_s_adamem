@@ -37,7 +37,7 @@ public class SetupJob : MonoBehaviour
     
     public void ShowContractStats()
     {
-        GlobalVariables.JobGameObject = GetComponent<Button>();
+        GlobalVariables.JobGameObject = gameObject;
         DisplayContractInfo.Instance.DisplayStats(_jobTime, _jobMoney, _jobXp, _jobData.JobType, 0);
         GlobalVariables.CurrentJob = _jobData;
     }

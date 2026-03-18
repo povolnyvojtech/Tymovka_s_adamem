@@ -34,7 +34,7 @@ public class GlobalVariables : MonoBehaviour
 
     public static bool HasJob = false;
     public static Job CurrentJob;
-    public static Button JobGameObject;
+    public static GameObject JobGameObject;
     public static int CurrentJobMoney;
 
     public static float GymLevel = 1; //TODO bude reprezentovano pomoci takovyho baru kde bude vyznaceno jak na tom je

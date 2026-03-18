@@ -12,8 +12,9 @@ public class JobGenerator : MonoBehaviour
     public static JobGenerator Instance;
     public GameObject jobPrefab;
     public Transform contentParent;
-    private string _jobType = "GDgodot";
+    private string _jobType;
     public TextMeshProUGUI timeTillReset;
+    private readonly List<string> _jobTypes = new List<string>() {"Rockstar Games", "Naughty Dog", "CD Projekt", "FromSoftware", "Bethesda Game Studios", "Larian Studios", "Valve", "Remedy Entertainment", "Guerrilla Games"};
 
     private void Awake()
     {
@@ -22,18 +23,12 @@ public class JobGenerator : MonoBehaviour
     
     private void Start()
     {
-        _jobType = GlobalVariables.CareerPath switch
-        {
-            "GDgodot" => "Game in godot",
-            "GDunity" => "Game in unity",
-            "GDue" => "Game in unreal engine",
-            "WDfrontend" => "Web Frontend",
-            "WDbackend" => "Web Backend",
-            "SEpython" => "Python",
-            "SEjava" => "Java",
-            _ => _jobType //pokud _jobType není nic z uvedenýho tak tam nechá co tam bylo
-        };
         StartCoroutine(RestartJobOfferTimer());
+    }
+
+    public string ChooseRandomJobType(List<string> types)
+    {
+        return types[Random.Range(0, types.Count)];
     }
     
     public void RefreshAllJobsUI()
@@ -54,6 +49,17 @@ public class JobGenerator : MonoBehaviour
         {
             for (int i = 0; i < count; i++)
             {
+                _jobType = GlobalVariables.CareerPath switch
+                {
+                    "GDgodot" => ChooseRandomJobType(_jobTypes),
+                    "GDunity" => "Game in unity",
+                    "GDue" => "Game in unreal engine",
+                    "WDfrontend" => "Web Frontend",
+                    "WDbackend" => "Web Backend",
+                    "SEpython" => "Python",
+                    "SEjava" => "Java",
+                    _ => _jobType //pokud _jobType není nic z uvedenýho tak tam nechá co tam bylo
+                };
                 if (_jobType != null)
                 {
                     

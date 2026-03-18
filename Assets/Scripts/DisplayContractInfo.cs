@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DisplayContractInfo : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class DisplayContractInfo : MonoBehaviour
    public TextMeshProUGUI timeText;
    public TextMeshProUGUI xpText;
    public TextMeshProUGUI moneyText;
+   public GameObject startContractButton;
    public static DisplayContractInfo Instance { get; private set; }
 
    private void Awake()
@@ -24,18 +26,31 @@ public class DisplayContractInfo : MonoBehaviour
 
    private void Start()
    {
-      timeText.text = "Choose contract";
+      titleText.text = "Choose contract";
       timeText.text = "";
       moneyText.text = "";
       xpText.text = "";
+      startContractButton.SetActive(false);
+
    }
 
    public void DisplayStats(int jobTime, int jobMoney, int jobXp, string jobName, int type) //type 0 - nastavit, 1 - smazat
    {
+      startContractButton.SetActive(true);
       titleText.text = jobName;
       timeText.text = "Time: " + jobTime;
       moneyText.text = "Money: " + jobMoney;
       xpText.text = "XP: " + jobXp;
+   }
+
+   public void ClearJobInfo()
+   {
+      Debug.Log("Clearing job info");
+      titleText.text = "Choose contract";
+      timeText.text = "";
+      moneyText.text = "";
+      xpText.text = "";
+      startContractButton.SetActive(false);
    }
 
 }
