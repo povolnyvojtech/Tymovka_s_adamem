@@ -62,7 +62,6 @@ public class JobGenerator : MonoBehaviour
                 };
                 if (_jobType != null)
                 {
-                    
                     int time = Random.Range(1, 100); // v hodinach
                     int money = time * GlobalVariables.HourRate;
                     int xp = time * 3; //3 je random konstanta na násobení času k získání xp TODO
@@ -80,7 +79,6 @@ public class JobGenerator : MonoBehaviour
         {
             GameObject newJob = Instantiate(jobPrefab, contentParent);
             newJob.GetComponent<SetupJob>().Setup(job);
-            Debug.Log("Job was created");
         }
     }
     

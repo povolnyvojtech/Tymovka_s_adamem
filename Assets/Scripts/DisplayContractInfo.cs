@@ -45,7 +45,6 @@ public class DisplayContractInfo : MonoBehaviour
 
    public void ClearJobInfo()
    {
-      Debug.Log("Clearing job info");
       titleText.text = "Choose contract";
       timeText.text = "";
       moneyText.text = "";

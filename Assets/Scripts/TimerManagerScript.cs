@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class TimerManagerScript : MonoBehaviour
     public static float JobOffersTimeLeft;
     public static float CurrentJobTimeLeft;
     public static float PracticingTimeLeft;
+    public static event Action JobFinished;
     
     private void Awake()
     {
@@ -47,7 +49,8 @@ public class TimerManagerScript : MonoBehaviour
             yield return null;
             CurrentJobTimeLeft -= Time.deltaTime;
         }
-        
+
+        JobFinished.Invoke();
         GlobalVariables.HasJob = false;
         GlobalVariables.Money += (int)Mathf.Round(jobMoney * GlobalVariables.QualityMultiplier);
         GlobalVariables.Xp += jobXp;

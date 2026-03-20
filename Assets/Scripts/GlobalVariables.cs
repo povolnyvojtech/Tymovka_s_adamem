@@ -7,11 +7,13 @@ using UnityEngine.UI;
 
 public class GlobalVariables : MonoBehaviour
 {
+    //BG variables
     public static int HallBgLevel = 0;
     public static int CurrentHallBgUpgradeCost = 600;
     public static int BedroomBgLevel = 0;
     public static int CurrentBedroomBgUpgradeCost = 500;
 
+    //practice variables
     public static int QualityLevel = 1;
     public static float QualityMultiplier = 1f;
     public static int SpeedLevel = 1;
@@ -21,6 +23,7 @@ public class GlobalVariables : MonoBehaviour
     public static int SpeedPractisingTime = 20;
     public static int CurrentPracticingType = 2;
     
+    //career variables
     public static bool HasCareer = false;
     public static string CareerPath = "None"; //vždy formát - TYPPROFESEzamereni - GDgodot 
 
@@ -30,6 +33,7 @@ public class GlobalVariables : MonoBehaviour
     private static int _level = 1;
     public static int Xp;
     
+    //job variables
     public static List<Job> JobOffers =  new List<Job>();
 
     public static bool HasJob = false;
@@ -37,9 +41,13 @@ public class GlobalVariables : MonoBehaviour
     public static GameObject JobGameObject;
     public static int CurrentJobMoney;
 
+    //dating variables
     public static float GymLevel = 1; //TODO bude reprezentovano pomoci takovyho baru kde bude vyznaceno jak na tom je
     public static float OverallLook = 1; //TODO to stejny jak GymLevel
     public static float ChanceToGetHoes; //TODO nějaká formula pomocí GymLevelu, rizzu, OverallLooku, zkušeností
+    public static string DatingName;
+    public static string DatingSurname;
+    public static bool HasRegistered = false;
 
 
     public static void CalculateChanceToGetGirls()

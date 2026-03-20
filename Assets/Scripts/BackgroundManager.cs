@@ -20,8 +20,8 @@ public class BackgroundManager : MonoBehaviour
     {
         switch (roomType)
         {
-            case 0: ChangeBackground(GlobalVariables.HallBgLevel); Debug.Log("Hall bg changed"); break;
-            case 1: ChangeBackground(GlobalVariables.BedroomBgLevel); Debug.Log("Bedroom bg changed"); break;
+            case 0: ChangeBackground(GlobalVariables.HallBgLevel); break;
+            case 1: ChangeBackground(GlobalVariables.BedroomBgLevel); break;
         }  
     }
 }
