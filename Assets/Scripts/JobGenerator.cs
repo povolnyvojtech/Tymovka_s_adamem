@@ -14,7 +14,7 @@ public class JobGenerator : MonoBehaviour
     public Transform contentParent;
     private string _jobType;
     public TextMeshProUGUI timeTillReset;
-    private readonly List<string> _jobTypes = new List<string>() {"Rockstar Games", "Naughty Dog", "CD Projekt", "FromSoftware", "Bethesda Game Studios", "Larian Studios", "Valve", "Remedy Entertainment", "Guerrilla Games"};
+    private readonly List<string> _gameDevJobTypes = new List<string>() {"Rockstar Games", "Naughty Dog", "CD Projekt", "FromSoftware", "Bethesda Game Studios", "Larian Studios", "Valve", "Remedy Entertainment", "Guerrilla Games"};
 
     private void Awake()
     {
@@ -51,9 +51,9 @@ public class JobGenerator : MonoBehaviour
             {
                 _jobType = GlobalVariables.CareerPath switch
                 {
-                    "GDgodot" => ChooseRandomJobType(_jobTypes),
-                    "GDunity" => "Game in unity",
-                    "GDue" => "Game in unreal engine",
+                    "GDgodot" => ChooseRandomJobType(_gameDevJobTypes),
+                    "GDunity" => ChooseRandomJobType(_gameDevJobTypes),
+                    "GDue" => ChooseRandomJobType(_gameDevJobTypes),
                     "WDfrontend" => "Web Frontend",
                     "WDbackend" => "Web Backend",
                     "SEpython" => "Python",
@@ -80,6 +80,7 @@ public class JobGenerator : MonoBehaviour
         {
             GameObject newJob = Instantiate(jobPrefab, contentParent);
             newJob.GetComponent<SetupJob>().Setup(job);
+            Debug.Log("Job was created");
         }
     }
     
