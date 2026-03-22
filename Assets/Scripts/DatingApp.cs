@@ -5,6 +5,7 @@ public class DatingApp : MonoBehaviour
 {
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI surnameText;
+    public GameObject meetButton;
     
     void Start()
     {
@@ -17,6 +18,7 @@ public class DatingApp : MonoBehaviour
     private void UpdateUserInfo()
     {
         GlobalVariables.HasRegistered = true;
+        meetButton.SetActive(true);
         if (GlobalVariables.DatingName != "" || GlobalVariables.DatingSurname != "")
         {
             nameText.text = GlobalVariables.DatingName;

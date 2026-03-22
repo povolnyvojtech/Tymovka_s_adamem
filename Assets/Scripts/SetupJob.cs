@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class SetupJob : MonoBehaviour
 {
     public TextMeshProUGUI typeText;
-    //public TextMeshProUGUI timeText;
     public TextMeshProUGUI moneyText;
 
     private Job _jobData;

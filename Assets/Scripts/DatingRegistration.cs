@@ -10,7 +10,7 @@ public class DatingRegistration : MonoBehaviour
     private Button _saveButton;
     
     public GameObject registrationDisplay;
-    public GameObject photosDisplay;
+    public GameObject profileDisplay;
 
     public static event Action userHasRegistered;
     
@@ -27,7 +27,7 @@ public class DatingRegistration : MonoBehaviour
         GlobalVariables.DatingName = nameInput.text;
         GlobalVariables.DatingSurname = surnameInput.text;
         registrationDisplay.SetActive(false);
-        photosDisplay.SetActive(true);
+        profileDisplay.SetActive(true);
         userHasRegistered?.Invoke();
     }
 }

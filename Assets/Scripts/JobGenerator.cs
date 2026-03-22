@@ -26,7 +26,7 @@ public class JobGenerator : MonoBehaviour
         StartCoroutine(RestartJobOfferTimer());
     }
 
-    public string ChooseRandomJobType(List<string> types)
+    private string ChooseRandomJobType(List<string> types)
     {
         return types[Random.Range(0, types.Count)];
     }
