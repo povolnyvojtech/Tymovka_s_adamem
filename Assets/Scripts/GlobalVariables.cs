@@ -48,7 +48,8 @@ public class GlobalVariables : MonoBehaviour
     public static string DatingName;
     public static string DatingSurname;
     public static bool HasRegistered = false;
-    public static List<WomanProfile> WomenProfiles =  new List<WomanProfile>();
+    public static GameObject PreviousWomanProfile;
+    public static bool Way;
 
 
     public static void CalculateChanceToGetGirls()

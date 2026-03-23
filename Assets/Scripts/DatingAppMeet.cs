@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,8 +9,9 @@ public class DatingAppMeet : MonoBehaviour
     private List<string> _randomWomanProfileInfo;
     public Transform contentParent;
     public GameObject womanProfilePrefab;
-    private bool _generatedProfiles;
+    private bool _generatedWomanProfile;
     public GameObject panels;
+    private WomanProfile _currentWomanProfile;
     private readonly List<string> _names = new List<string>()
     {
         "Emma", "Olivia", "Sophia", "Ava", "Isabella", "Mia", "Amelia", "Harper",
@@ -26,37 +28,46 @@ public class DatingAppMeet : MonoBehaviour
     private void OnEnable()
     {
         titleText.text = GlobalVariables.HasRegistered ? "Meet the love of your life" : "You have to register first";
-        if (_generatedProfiles) return;
         if (!GlobalVariables.HasRegistered) { panels.SetActive(false); return; }
         panels.SetActive(true);
-        GenerateWomenProfiles();
-        InitiateWomenProfiles();
-        _generatedProfiles = true;
-    }
-
-    private void GenerateWomenProfiles()
-    {
-        if (GlobalVariables.WomenProfiles.Count == 0)
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                _randomWomanProfileInfo = GenerateRandomInfo();
-                GlobalVariables.WomenProfiles.Add(new WomanProfile(_randomWomanProfileInfo[0], _randomWomanProfileInfo[1], _randomWomanProfileInfo[2]));
-            }
-        }
+        if (_generatedWomanProfile) return;
+        GenerateWomenProfile();
+        _generatedWomanProfile = true;
+        DatingWomanProfile.GenerateNewWomanProfileAction += GenerateWomenProfile;
     }
     
-    private void InitiateWomenProfiles()
+    private IEnumerator SlideAndDestroy(GameObject profileToDestroy)
     {
-        foreach (WomanProfile profile in GlobalVariables.WomenProfiles)
+        GameObject objectToAnimate = profileToDestroy;
+        if (!objectToAnimate) yield break;
+
+        RectTransform rt = objectToAnimate.GetComponent<RectTransform>();
+    
+        float offset = GlobalVariables.Way ? rt.rect.width : -rt.rect.width;
+        Vector2 targetPos = new Vector2(rt.anchoredPosition.x + offset, rt.anchoredPosition.y);
+    
+        float speed = 1000f;
+
+        while (rt && rt.anchoredPosition != targetPos)
         {
-            GameObject newWomanProfile = Instantiate(womanProfilePrefab, contentParent);
-            newWomanProfile.GetComponent<DatingWomanProfile>().SetupDatingWomanProfile(profile);
+            rt.anchoredPosition = Vector2.MoveTowards(rt.anchoredPosition, targetPos, speed * Time.deltaTime);
+            yield return null;
+        }
+
+        if (objectToAnimate != null) 
+        {
+            Destroy(objectToAnimate);
         }
     }
 
-    private List<string> GenerateRandomInfo()
+    private void GenerateWomenProfile()
     {
+        GameObject objectToAnimate = GlobalVariables.PreviousWomanProfile;
+        if (_generatedWomanProfile && objectToAnimate)
+        {
+            StartCoroutine(SlideAndDestroy(objectToAnimate));
+        }
+        Debug.Log("Generating WomenProfile");
         string womanName = _names[Random.Range(0, 15)];
         string age = Random.Range(15, 30).ToString();
         string hobbies = "";
@@ -72,8 +83,15 @@ public class DatingAppMeet : MonoBehaviour
                 hobbies += ", " + _hobbies[Random.Range(0, 15)];
             }
         }
-        
-        
-        return new List<string>() { womanName, age, hobbies };
+        _currentWomanProfile = new WomanProfile(womanName, age, hobbies);
+        InitiateWomenProfiles();
+    }
+    
+    private void InitiateWomenProfiles()
+    {
+        GameObject newWomanProfile = Instantiate(womanProfilePrefab, contentParent);
+        newWomanProfile.transform.SetAsFirstSibling();
+        GlobalVariables.PreviousWomanProfile = newWomanProfile;
+        newWomanProfile.GetComponent<DatingWomanProfile>().SetupDatingWomanProfile(_currentWomanProfile);
     }
 }
