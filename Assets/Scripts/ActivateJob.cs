@@ -5,11 +5,17 @@ using UnityEngine.UI;
 
 public class ActivateJob : MonoBehaviour
 {
-    private TextMeshProUGUI _buttonText;
-    private void Start()
+    public TextMeshProUGUI buttonText;
+    
+    private void UpdateButtonText()
     {
-        _buttonText = GetComponentInChildren<TextMeshProUGUI>();
+        if (!GlobalVariables.HasJob)
+        {
+            buttonText.text = "Start Contract";
+            buttonText.GetComponent<TextMeshProUGUI>().color = Color.black;
+        }
     }
+    
     private void OnEnable()
     {
         TimerManagerScript.JobFinished += UpdateButtonText;
@@ -20,20 +26,11 @@ public class ActivateJob : MonoBehaviour
         TimerManagerScript.JobFinished -= UpdateButtonText;
     }
 
-    private void UpdateButtonText()
-    {
-        if (GlobalVariables.HasJob)
-        {
-            _buttonText.text = "Start Contract";
-            _buttonText.GetComponent<TextMeshProUGUI>().color = Color.black;
-        }
-    }
-
     public void ActivateJobFun()
     {
         if (GlobalVariables.HasJob) return;
-        _buttonText.text = "Ongoing job";
-        _buttonText.GetComponent<TextMeshProUGUI>().color = Color.red;
+        buttonText.text = "Ongoing job";
+        buttonText.GetComponent<TextMeshProUGUI>().color = Color.red;
         Destroy(GlobalVariables.JobGameObject);
         DisplayContractInfo.Instance.ClearJobInfo();
         JobManager.Instance.StartContract(GlobalVariables.CurrentJob.JobTime, GlobalVariables.CurrentJob.JobMoney, GlobalVariables.CurrentJob.JobXp);

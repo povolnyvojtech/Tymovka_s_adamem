@@ -12,7 +12,7 @@ public class JobGenerator : MonoBehaviour
     public static JobGenerator Instance;
     public GameObject jobPrefab;
     public Transform contentParent;
-    private string _jobType;
+    private string _jobType = "GDgodot"; //GDgodot is for developing TODO smazat pro build
     public TextMeshProUGUI timeTillReset;
     private readonly List<string> _gameDevJobTypes = new List<string>() {"Rockstar Games", "Naughty Dog", "CD Projekt", "FromSoftware", "Bethesda Game Studios", "Larian Studios", "Valve", "Remedy Entertainment", "Guerrilla Games"};
 

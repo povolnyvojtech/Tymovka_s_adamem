@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.TextCore.LowLevel;
+using UnityEngine.UI;
 
 public class JobManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class JobManager : MonoBehaviour
     public TextMeshProUGUI jobMoneyStatsText;
     public TextMeshProUGUI practiceRemainingTimeStatsText;
     public TextMeshProUGUI practiceRewardStatsText;
+    public GameObject timerSliderBG;
+    public Image timerSliderFG;
 
     private void Awake()
     {
@@ -48,7 +51,7 @@ public class JobManager : MonoBehaviour
         if (GlobalVariables.HasJob) return;
         GlobalVariables.HasJob = true;
         GlobalVariables.CurrentJobMoney = jobMoney;
-        TimerManagerScript.Instance.StartCoroutine(TimerManagerScript.CurrentJobTimer(jobTime, jobMoney, jobXp));
+        TimerManagerScript.Instance.StartCoroutine(TimerManagerScript.CurrentJobTimer(jobTime, jobMoney, jobXp, timerSliderBG, timerSliderFG));
     }
 
     public void RefreshUI()

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class GlobalVariables : MonoBehaviour
 {
+    public static string ActiveScene;
+    
     //BG variables
     public static int HallBgLevel = 0;
     public static int CurrentHallBgUpgradeCost = 600;
@@ -40,6 +42,9 @@ public class GlobalVariables : MonoBehaviour
     public static Job CurrentJob;
     public static GameObject JobGameObject;
     public static int CurrentJobMoney;
+    public static float CurrentJobTimerSliderValue;
+    public static float CurrentPracticeTimerSliderValue;
+    
 
     //dating variables
     public static float GymLevel = 1; //TODO bude reprezentovano pomoci takovyho baru kde bude vyznaceno jak na tom je
@@ -74,7 +79,8 @@ public class GlobalVariables : MonoBehaviour
     {
         if (currentJobTimeLeft > 0 && jobRemainingTimeStatsText && jobMoneyStatsText && HasJob)
         {
-            CalcTime((int)Mathf.Round(currentJobTimeLeft), jobRemainingTimeStatsText, 1);
+            //CalcTime((int)Mathf.Round(currentJobTimeLeft), jobRemainingTimeStatsText, 1);
+            jobRemainingTimeStatsText.text = "";
             jobMoneyStatsText.text = "Money: " + currentJobMoney;
             return;
         }
@@ -86,7 +92,8 @@ public class GlobalVariables : MonoBehaviour
     {
         if (practiceTimeLeft > 0 && practiceRemainingTimeStatsText && IsPracticing)
         {
-            CalcTime((int)Mathf.Round(practiceTimeLeft), practiceRemainingTimeStatsText, 1);
+            //CalcTime((int)Mathf.Round(practiceTimeLeft), practiceRemainingTimeStatsText, 1);
+            practiceRemainingTimeStatsText.text = "";
             practiceRewardStatsText.text = practiceType switch
             {
                 0 => "Reward: Quality multiplier -> " + (QualityMultiplier + 0.1f),
