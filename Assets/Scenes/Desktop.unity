@@ -2894,7 +2894,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &233125167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4489,6 +4489,8 @@ MonoBehaviour:
   speedUpgradeButton: {fileID: 809357513}
   speedLevelText: {fileID: 1688705037}
   speedButtonText: {fileID: 673401752}
+  loadingBG: {fileID: 0}
+  loadingFG: {fileID: 0}
   finishedCanvas: {fileID: 1566316350}
 --- !u!4 &352296049
 Transform:

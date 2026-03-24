@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimerManagerScript : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class TimerManagerScript : MonoBehaviour
     public static float JobOffersTimeLeft;
     public static float CurrentJobTimeLeft;
     public static float PracticingTimeLeft;
+    
+    
     public static event Action JobFinished;
     
     private void Awake()
@@ -62,7 +65,7 @@ public class TimerManagerScript : MonoBehaviour
         }
     }
 
-    public static IEnumerator PracticingTimer(int practiceType) //0 - quality, 1 - speed
+    public static IEnumerator PracticingTimer(int practiceType, Image bg, Image fg) //0 - quality, 1 - speed
     {
         switch (practiceType)
         {
@@ -70,9 +73,15 @@ public class TimerManagerScript : MonoBehaviour
             case 1: PracticingTimeLeft = GlobalVariables.SpeedPractisingTime; break;
         }
 
+        RectTransform rt = fg.GetComponent<RectTransform>();
+        float totalToGrow = 200f;
+        float duration = PracticingTimeLeft;
+        float growthPerSecond = totalToGrow / duration;
+
         while (PracticingTimeLeft > 0)
         {
             yield return null;
+            rt.sizeDelta += new Vector2(growthPerSecond * Time.deltaTime, 0);
             PracticingTimeLeft -= Time.deltaTime;
         }
 

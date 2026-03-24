@@ -11,6 +11,8 @@ public class PracticeCanvasManager : MonoBehaviour
     public Button speedUpgradeButton;
     public TextMeshProUGUI speedLevelText;
     public TextMeshProUGUI speedButtonText;
+    public Image loadingBG;
+    public Image loadingFG;
 
     public GameObject finishedCanvas;
     public static PracticeCanvasManager Instance;
@@ -69,7 +71,7 @@ public class PracticeCanvasManager : MonoBehaviour
         if (GlobalVariables.IsPracticing || GlobalVariables.QualityLevel == 10) return;
         GlobalVariables.IsPracticing = true;
         GlobalVariables.CurrentPracticingType = 0;
-        StartCoroutine(TimerManagerScript.PracticingTimer(0));
+        StartCoroutine(TimerManagerScript.PracticingTimer(0, loadingBG, loadingFG));
         StartCoroutine(QualityPractisingTimer());
     }
     
@@ -78,7 +80,7 @@ public class PracticeCanvasManager : MonoBehaviour
         if (GlobalVariables.IsPracticing || GlobalVariables.SpeedLevel== 10) return;
         GlobalVariables.IsPracticing = true;
         GlobalVariables.CurrentPracticingType = 1;
-        StartCoroutine(TimerManagerScript.PracticingTimer(1));
+        StartCoroutine(TimerManagerScript.PracticingTimer(1, loadingBG, loadingFG));
         StartCoroutine(SpeedPractisingTimer());
     }
     
