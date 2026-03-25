@@ -11,8 +11,6 @@ public class PracticeCanvasManager : MonoBehaviour
     public Button speedUpgradeButton;
     public TextMeshProUGUI speedLevelText;
     public TextMeshProUGUI speedButtonText;
-    public GameObject timerSliderBG;
-    public Image timerSliderFG;
 
     public GameObject finishedCanvas;
     public static PracticeCanvasManager Instance;
@@ -71,7 +69,7 @@ public class PracticeCanvasManager : MonoBehaviour
         if (GlobalVariables.IsPracticing || GlobalVariables.QualityLevel == 10) return;
         GlobalVariables.IsPracticing = true;
         GlobalVariables.CurrentPracticingType = 0;
-        StartCoroutine(TimerManagerScript.PracticingTimer(0, timerSliderBG, timerSliderFG ));
+        StartCoroutine(TimerManagerScript.PracticingTimer(0));
         StartCoroutine(QualityPractisingTimer());
     }
     
@@ -80,7 +78,7 @@ public class PracticeCanvasManager : MonoBehaviour
         if (GlobalVariables.IsPracticing || GlobalVariables.SpeedLevel== 10) return;
         GlobalVariables.IsPracticing = true;
         GlobalVariables.CurrentPracticingType = 1;
-        StartCoroutine(TimerManagerScript.PracticingTimer(1, timerSliderBG, timerSliderFG));
+        StartCoroutine(TimerManagerScript.PracticingTimer(1));
         StartCoroutine(SpeedPractisingTimer());
     }
     
@@ -88,16 +86,20 @@ public class PracticeCanvasManager : MonoBehaviour
     {
         yield return new WaitForSeconds(GlobalVariables.QualityPractisingTime);
         GlobalVariables.CurrentPracticingType = 2;
-        qualityLevelText.text = "Level " + (++GlobalVariables.QualityLevel);
-        RefreshButtonText(qualityButtonText, 0);
+        
+        //TODO qualityLevelText je null protože corutina, to se vztahuje i na qualityButtonText - z nějakýho důvodu to funguje
+        if (GlobalVariables.ActiveScene == "Desktop" && qualityLevelText &&  qualityButtonText)
+        {
+            qualityLevelText.text = "Level " + (++GlobalVariables.QualityLevel);
+            RefreshButtonText(qualityButtonText, 0);
+        }
+        
         GlobalVariables.QualityMultiplier += 0.1f;
         --GlobalVariables.QualityPractisingTime;
         GlobalVariables.IsPracticing = false;
         if (finishedCanvas)
         {
-            Debug.Log("Before finishedCanvas");
             finishedCanvas.SetActive(true);
-            Debug.Log("After finishedCanvas");
         }
         
     }

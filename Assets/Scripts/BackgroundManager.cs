@@ -16,12 +16,12 @@ public class BackgroundManager : MonoBehaviour
         }
     }
     
-    private void Start()  
+    private void Start()
     {
         switch (roomType)
         {
-            case 0: ChangeBackground(GlobalVariables.HallBgLevel); break;
-            case 1: ChangeBackground(GlobalVariables.BedroomBgLevel); break;
+            case 0: ChangeBackground(GlobalVariables.HallBgLevel); GlobalVariables.ActiveScene = "Hall"; break;
+            case 1: ChangeBackground(GlobalVariables.BedroomBgLevel); GlobalVariables.ActiveScene = "Bedroom"; break;
         }  
     }
 }

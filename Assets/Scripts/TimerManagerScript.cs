@@ -49,10 +49,9 @@ public class TimerManagerScript : MonoBehaviour
         }
     }
 
-    public static IEnumerator CurrentJobTimer(int jobTime, int jobMoney, int jobXp, GameObject timerImageBG, Image timerImageFG)
+    public static IEnumerator CurrentJobTimer(int jobTime, int jobMoney, int jobXp)
     {
-        timerImageBG.SetActive(true);
-        RectTransform rt = timerImageFG.GetComponent<RectTransform>();
+        LoggedJobTimerImageBG.SetActive(true);
         float totalToGrow = 200f;
         float duration = jobTime;
         float growthPerSecond = totalToGrow / duration;
@@ -64,25 +63,19 @@ public class TimerManagerScript : MonoBehaviour
             CurrentJobTimeLeft -= Time.deltaTime;
             GlobalVariables.CurrentJobTimerSliderValue += growthPerSecond * Time.deltaTime;
 
-            if (!timerImageBG || !timerImageFG  || !rt)
-            {
-                timerImageBG = LoggedJobTimerImageBG;
-                timerImageFG = LoggedJobTimerImageFG;
-                if (timerImageFG) rt = timerImageFG.GetComponent<RectTransform>();
-            }
-
-            if (!timerImageBG || !timerImageFG || !rt) continue;
+            if (!LoggedJobTimerImageBG || !LoggedJobTimerImageFG || !TemporaryJobRt) continue;
 
             if (GlobalVariables.HasJob && GlobalVariables.ActiveScene == "Desktop")
             {
-                timerImageBG.SetActive(true);
-                rt.sizeDelta = new Vector2(GlobalVariables.CurrentJobTimerSliderValue, 30);
+                LoggedJobTimerImageBG.SetActive(true);
+                TemporaryJobRt.sizeDelta = new Vector2(GlobalVariables.CurrentJobTimerSliderValue, 30);
             }
         }
         
         GlobalVariables.HasJob = false;
         JobFinished?.Invoke();
-        timerImageBG.SetActive(false);
+        LoggedJobTimerImageBG.SetActive(false);
+        GlobalVariables.CurrentJobTimerSliderValue = 0;
         GlobalVariables.Money += (int)Mathf.Round(jobMoney * GlobalVariables.QualityMultiplier);
         GlobalVariables.Xp += jobXp;
         GlobalVariables.LevelUp();
@@ -93,17 +86,15 @@ public class TimerManagerScript : MonoBehaviour
         }
     }
 
-    //TODO MUSÍŠ TO PŘEKOPAT PROTOŽE timerImageBG a timerImageFG nepotřebuješ, oni se sami nastaví v LogSliderToScript
-    public static IEnumerator PracticingTimer(int practiceType, GameObject timerImageBG, Image timerImageFG) //0 - quality, 1 - speed
+    public static IEnumerator PracticingTimer(int practiceType) //0 - quality, 1 - speed
     {
-        timerImageBG.SetActive(true);
+        LoggedPracticeTimerImageBG.SetActive(true);
         switch (practiceType)
         {
             case 0: PracticingTimeLeft = GlobalVariables.QualityPractisingTime; break;
             case 1: PracticingTimeLeft = GlobalVariables.SpeedPractisingTime; break;
         }
         
-        RectTransform rt = timerImageFG.GetComponent<RectTransform>();
         float totalToGrow = 200f;
         float duration = PracticingTimeLeft;
         float growthPerSecond = totalToGrow / duration;
@@ -113,24 +104,18 @@ public class TimerManagerScript : MonoBehaviour
             yield return null;
             PracticingTimeLeft -= Time.deltaTime;
             GlobalVariables.CurrentPracticeTimerSliderValue += growthPerSecond * Time.deltaTime;
-            
-            if (!timerImageBG || !timerImageFG  || !rt)
-            {
-                timerImageBG = LoggedPracticeTimerImageBG;
-                timerImageFG = LoggedPracticeTimerImageFG;
-                if (timerImageFG) rt = timerImageFG.GetComponent<RectTransform>();
-            }
 
-            if (!timerImageBG || !timerImageFG || !rt) continue;
+            if (!LoggedPracticeTimerImageBG || !LoggedPracticeTimerImageFG || !TemporaryPracticeRt) continue;
 
             if (GlobalVariables.IsPracticing && GlobalVariables.ActiveScene == "Desktop")
             {
-                timerImageBG.SetActive(true);
-                rt.sizeDelta = new Vector2(GlobalVariables.CurrentPracticeTimerSliderValue, 30);
+                LoggedPracticeTimerImageBG.SetActive(true);
+                TemporaryPracticeRt.sizeDelta = new Vector2(GlobalVariables.CurrentPracticeTimerSliderValue, 30);
             }
         }
         
-        timerImageBG.SetActive(false);
+        LoggedPracticeTimerImageBG.SetActive(false);
+        GlobalVariables.CurrentPracticeTimerSliderValue = 0;
         
         if (JobManager.Instance)
         {

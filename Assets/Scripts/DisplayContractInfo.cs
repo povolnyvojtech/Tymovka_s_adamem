@@ -34,7 +34,7 @@ public class DisplayContractInfo : MonoBehaviour
 
    }
 
-   public void DisplayStats(int jobTime, int jobMoney, int jobXp, string jobName, int type) //type 0 - nastavit, 1 - smazat
+   public void DisplayStats(int jobTime, int jobMoney, int jobXp, string jobName) //type 0 - nastavit, 1 - smazat
    {
       startContractButton.SetActive(true);
       titleText.text = jobName;

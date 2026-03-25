@@ -17,7 +17,7 @@ public class PracticeFinished : MonoBehaviour
     {
         qualityMultiplierText.text = "Quality Multiplier: " + GlobalVariables.QualityMultiplier;
         speedMultiplierText.text = "Speed Multiplier: " + GlobalVariables.SpeedMultiplier;
-        if (JobGenerator.Instance != null)
+        if (JobGenerator.Instance)
         { 
             JobGenerator.Instance.RefreshAllJobsUI();
         }

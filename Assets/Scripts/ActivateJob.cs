@@ -6,7 +6,22 @@ using UnityEngine.UI;
 public class ActivateJob : MonoBehaviour
 {
     public TextMeshProUGUI buttonText;
-    
+
+    private void Start()
+    {
+        if (!GlobalVariables.HasJob)
+        {
+            buttonText.text = "Start Contract";
+            buttonText.GetComponent<TextMeshProUGUI>().color = Color.black;
+        }
+        else
+        {
+            buttonText.text = "Ongoing job";
+            buttonText.GetComponent<TextMeshProUGUI>().color = Color.red;
+        }
+            
+    }
+
     private void UpdateButtonText()
     {
         if (!GlobalVariables.HasJob)
