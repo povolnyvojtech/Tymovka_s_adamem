@@ -70,9 +70,9 @@ public class GlobalVariables : MonoBehaviour
     
     public static void UpdateStats(TextMeshProUGUI levelText, TextMeshProUGUI xpText, TextMeshProUGUI moneyText)
     {
-        levelText.text = "Level: " + _level;
-        xpText.text = "Xp: " + Xp;
-        moneyText.text = "Money: " + Money;
+        levelText.text = _level.ToString();
+        xpText.text = Xp.ToString();
+        moneyText.text = Money.ToString();
     }
     
     public static void UpdateJobStats(float currentJobTimeLeft, TextMeshProUGUI jobRemainingTimeStatsText, TextMeshProUGUI jobMoneyStatsText, int currentJobMoney)
