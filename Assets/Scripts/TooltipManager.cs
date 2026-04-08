@@ -10,6 +10,7 @@ public class TooltipManager : MonoBehaviour
     public Transform tooltipTransform;
     public static TooltipManager Instance;
     public TextMeshProUGUI statsText;
+    private readonly Vector2 _offset = new(-10,-40);
     
     private void Awake()
     {
@@ -21,8 +22,8 @@ public class TooltipManager : MonoBehaviour
         if (!tooltipTransform.gameObject.activeSelf) return;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera, out var mousePos
         );
-
-        tooltipTransform.localPosition = mousePos;
+        
+        tooltipTransform.localPosition = mousePos + _offset;
     }
 
     public void Show(string buttonType)
