@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SlotsManager : MonoBehaviour
 {
     public GameObject hasWonImage;
+    public Button spinButton;
     public GameObject[] images = new GameObject[3]; 
     public Sprite[] icons = new Sprite[7]; 
     
@@ -21,7 +22,7 @@ public class SlotsManager : MonoBehaviour
         for (int i = 0; i < images.Length; i++)
         {
             Image imgComponent = images[i].GetComponent<Image>(); 
-            for (int j = 0; j <= 8; j++)
+            for (int j = 0; j <= 8; j++) //TODO wait for a bit then show
             {
                 _chosenIndex = Random.Range(0, icons.Length); 
                 imgComponent.sprite = icons[_chosenIndex]; 
@@ -40,7 +41,9 @@ public class SlotsManager : MonoBehaviour
 
     private IEnumerator HideHasWonText()
     {
+        spinButton.interactable = false;
         yield return new WaitForSeconds(2f);
+        spinButton.interactable = true; 
         hasWonImage.SetActive(false);
     }
 }
