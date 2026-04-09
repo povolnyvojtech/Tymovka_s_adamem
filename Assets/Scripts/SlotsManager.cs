@@ -21,12 +21,10 @@ public class SlotsManager : MonoBehaviour
         
         for (int i = 0; i < images.Length; i++)
         {
-            Image imgComponent = images[i].GetComponent<Image>(); 
-            for (int j = 0; j <= 8; j++) //TODO wait for a bit then show
-            {
-                _chosenIndex = Random.Range(0, icons.Length); 
-                imgComponent.sprite = icons[_chosenIndex]; 
-            }
+            Image imgComponent = images[i].GetComponent<Image>();
+            //TODO wait for a bit then show
+            _chosenIndex = Random.Range(0, icons.Length); 
+            imgComponent.sprite = icons[_chosenIndex]; 
             _chosenIndexes[i] = _chosenIndex;
         }
 
@@ -34,6 +32,7 @@ public class SlotsManager : MonoBehaviour
         {
             hasWonImage.SetActive(true);
             StartCoroutine(HideHasWonText());
+            GlobalVariables.Money += 300;   
         }
         
         _isSpinning = false;
