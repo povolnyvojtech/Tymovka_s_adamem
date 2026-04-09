@@ -7,16 +7,16 @@ using UnityEngine.UI;
 public class ButtonConstructionLevelIncrease : MonoBehaviour  
 {  
     public TextMeshProUGUI buttonText;
-    public TextMeshProUGUI levelText;
+    public TextMeshProUGUI costText;
     public GameObject notEnoughMoneyText;
     public int roomType;
 
     private void Start()
     {
-        levelText.text = roomType switch
+        costText.text = roomType switch
         {
-            0 => "Level " + (GlobalVariables.HallBgLevel + 1),
-            1 => "Level " + (GlobalVariables.BedroomBgLevel + 1),
+            0 => "Cost " + (GlobalVariables.CurrentHallBgUpgradeCost),
+            1 => "Cost " + (GlobalVariables.CurrentBedroomBgUpgradeCost),
             _ => throw new ArgumentOutOfRangeException()
         };
 
@@ -29,21 +29,25 @@ public class ButtonConstructionLevelIncrease : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(ConstructionLevelIncrease);
     }
 
+    private void OnEnable()
+    {
+        notEnoughMoneyText.SetActive(false);
+    }
+
     private void ConstructionLevelIncrease()  //0 - hall, 1 - bedroom
     {
         switch (roomType)
         {
             case 0:
             {
-                if (CheckPurchase(roomType))
+                if (CheckPurchase())
                 {
-                    notEnoughMoneyText.SetActive(true);
                     StartCoroutine(DisableNotEnoughMoneyTimer());
                     return;
                 }
-                Debug.Log(GlobalVariables.CurrentHallBgUpgradeCost);
                 GlobalVariables.HallBgLevel = Mathf.Clamp(++GlobalVariables.HallBgLevel, 0,2);
-                levelText.text = "Level " + (GlobalVariables.HallBgLevel + 1);
+                GlobalVariables.CurrentHallBgUpgradeCost += 1500;
+                costText.text = "Cost " + (GlobalVariables.CurrentHallBgUpgradeCost);
                 if (GlobalVariables.HallBgLevel == 2)
                 {
                     buttonText.text = "MAX";
@@ -52,15 +56,14 @@ public class ButtonConstructionLevelIncrease : MonoBehaviour
             }
             case 1:
             {
-                if (CheckPurchase(roomType))
+                if (CheckPurchase())
                 {
-                    notEnoughMoneyText.SetActive(true);
                     StartCoroutine(DisableNotEnoughMoneyTimer());
                     return;
                 }
-                Debug.Log(GlobalVariables.CurrentBedroomBgUpgradeCost);
                 GlobalVariables.BedroomBgLevel = Mathf.Clamp(++GlobalVariables.BedroomBgLevel, 0,2);
-                levelText.text = "Level " + (GlobalVariables.BedroomBgLevel + 1);
+                GlobalVariables.CurrentBedroomBgUpgradeCost += 1300;
+                costText.text = "Cost " + (GlobalVariables.CurrentBedroomBgUpgradeCost);
                 if (GlobalVariables.BedroomBgLevel == 2)
                 {
                     buttonText.text = "MAX";
@@ -70,9 +73,9 @@ public class ButtonConstructionLevelIncrease : MonoBehaviour
         }
     }
 
-    private static bool CheckPurchase(int type)
+    private bool CheckPurchase()
     {
-        switch (type)
+        switch (roomType)
         {
             case 0: return (GlobalVariables.CurrentHallBgUpgradeCost > GlobalVariables.Money);
             case 1: return (GlobalVariables.CurrentBedroomBgUpgradeCost > GlobalVariables.Money);
@@ -82,6 +85,7 @@ public class ButtonConstructionLevelIncrease : MonoBehaviour
     
     private IEnumerator DisableNotEnoughMoneyTimer()
     {
+        notEnoughMoneyText.SetActive(true);
         yield return new WaitForSeconds(2);
         notEnoughMoneyText.SetActive(false);
     }

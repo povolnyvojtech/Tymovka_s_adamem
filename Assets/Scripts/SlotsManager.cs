@@ -1,40 +1,92 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class SlotsManager : MonoBehaviour
 {
     public GameObject hasWonImage;
     public Button spinButton;
     public GameObject[] images = new GameObject[3]; 
-    public Sprite[] icons = new Sprite[7]; 
+    public Sprite[] icons = new Sprite[7];
     
-    private int _chosenIndex;
-    private readonly List<int> _chosenIndexes = new List<int>() {0, 0, 0};
-    private bool _isSpinning = false;
+    private readonly List<int> _chosenIndexes = new List<int>() {-1,-1,-1};
+    private bool _isSpinning;
+
+    private event Action finishedSpinning;
+    private int _finishedSlots;
+    
+    public TextMeshProUGUI levelText;
+    public TextMeshProUGUI xpText;
+    public TextMeshProUGUI moneyText;
+    public GameObject notEnoughMoneyText;
+    
+    private void Start()
+    {
+        foreach (var image in images)
+        {
+            Image imgComponent = image.GetComponent<Image>();
+            imgComponent.sprite = icons[Random.Range(0, icons.Length)];
+        }
+
+        finishedSpinning += WinCheck;
+    }
 
     public void Spin()
     {
         if (_isSpinning) return;
+        if (GlobalVariables.Money < GlobalVariables.CurrentBet)
+        {
+            StartCoroutine(ShowNotEnoughMoneyText());
+            return;
+        }
+        GlobalVariables.Money -= GlobalVariables.CurrentBet;
+        GlobalVariables.UpdateStats(levelText, xpText, moneyText);
         _isSpinning = true;
         
         for (int i = 0; i < images.Length; i++)
         {
-            Image imgComponent = images[i].GetComponent<Image>();
-            //TODO wait for a bit then show
-            _chosenIndex = Random.Range(0, icons.Length); 
-            imgComponent.sprite = icons[_chosenIndex]; 
-            _chosenIndexes[i] = _chosenIndex;
+            StartCoroutine(ChooseFruits(images[i], i));
         }
+    }
 
+    private IEnumerator ShowNotEnoughMoneyText()
+    {
+        notEnoughMoneyText.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        notEnoughMoneyText.SetActive(false);
+    }
+
+    private IEnumerator ChooseFruits(GameObject slot, int currentImageIndex)
+    {
+        int chosenIndex = 0;
+        Image imgComponent = slot.GetComponent<Image>();
+        for (int i = 0; i < Random.Range(10,15); i++)
+        {
+            chosenIndex = Random.Range(0, icons.Length); 
+            imgComponent.sprite = icons[chosenIndex]; 
+            yield return new WaitForSeconds(0.1f);
+        }
+        _chosenIndexes[currentImageIndex] = chosenIndex;
+        finishedSpinning.Invoke();
+    }
+
+    private void WinCheck()
+    {
+        ++_finishedSlots;
+        if (_finishedSlots != 3) return;
+        _finishedSlots = 0;
         if (_chosenIndexes[0] == _chosenIndexes[1] && _chosenIndexes[1] == _chosenIndexes[2])
         {
             hasWonImage.SetActive(true);
             StartCoroutine(HideHasWonText());
-            GlobalVariables.Money += 300;   
+            GlobalVariables.Money += 30*GlobalVariables.CurrentBet;
+            GlobalVariables.UpdateStats(levelText, xpText, moneyText);
         }
-        
         _isSpinning = false;
     }
 
