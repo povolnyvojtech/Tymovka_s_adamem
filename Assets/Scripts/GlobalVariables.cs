@@ -10,9 +10,9 @@ public class GlobalVariables : MonoBehaviour
     public static string ActiveScene;
     
     //BG variables
-    public static int HallBgLevel = 1;
+    public static int HallBgLevel = 0;
     public static int CurrentHallBgUpgradeCost = 600;
-    public static int BedroomBgLevel = 1;
+    public static int BedroomBgLevel = 0;
     public static int CurrentBedroomBgUpgradeCost = 500;
 
     //practice variables

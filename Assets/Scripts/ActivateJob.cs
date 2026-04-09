@@ -19,7 +19,6 @@ public class ActivateJob : MonoBehaviour
             buttonText.text = "Ongoing job";
             buttonText.GetComponent<TextMeshProUGUI>().color = Color.red;
         }
-            
     }
 
     private void UpdateButtonText()
@@ -29,10 +28,16 @@ public class ActivateJob : MonoBehaviour
             buttonText.text = "Start Contract";
             buttonText.GetComponent<TextMeshProUGUI>().color = Color.black;
         }
+        else
+        {
+            buttonText.text = "Ongoing job";
+            buttonText.GetComponent<TextMeshProUGUI>().color = Color.red;
+        }
     }
     
     private void OnEnable()
     {
+        UpdateButtonText();
         TimerManagerScript.JobFinished += UpdateButtonText;
     }
 
