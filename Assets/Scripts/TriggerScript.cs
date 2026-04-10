@@ -26,25 +26,19 @@ public class TriggerScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && interactionButton != null)
-        {
-            _isPlayerInRange = true; 
+        if (interactionButton) return;
+        _isPlayerInRange = true; 
 
-            if (locked)
-            {
-                lockedText.SetActive(true);
-            }
-            interactionButton.SetActive(true);
+        if (locked)
+        {
+            lockedText.SetActive(true);
         }
-        else if (interactionButton == null && other.CompareTag("Player"))
-        { 
-            Debug.Log("Chybí interactionButton. Enter");
-        }
+        interactionButton.SetActive(true);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (!other.CompareTag("Player") || interactionButton == null) return;
+        if (!interactionButton) return;
         _isPlayerInRange = false;
 
         if (locked)

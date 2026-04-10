@@ -26,7 +26,7 @@ public class SwitchChooseXDesktop : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Player") || !interactionButton) return;
+        if (!interactionButton) return;
         _targetScene = GlobalVariables.HasCareer ? "Desktop" : "PcChoosePath";
         interactionButton.SetActive(true);
         _isPlayerInRange = true;
@@ -34,10 +34,8 @@ public class SwitchChooseXDesktop : MonoBehaviour
     
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && interactionButton != null)
-        {
-            interactionButton.SetActive(false);
-            _isPlayerInRange = false;
-        }
+        if (!interactionButton) return;
+        interactionButton.SetActive(false);
+        _isPlayerInRange = false;
     }
 }
