@@ -1142,7 +1142,7 @@ GameObject:
   - component: {fileID: 58605517}
   - component: {fileID: 58605516}
   m_Layer: 5
-  m_Name: Image (2)
+  m_Name: Slot3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1502,8 +1502,8 @@ MonoBehaviour:
   hasWonImage: {fileID: 1267993829}
   spinButton: {fileID: 74606576}
   images:
-  - {fileID: 1420257904}
   - {fileID: 1132280038}
+  - {fileID: 1420257904}
   - {fileID: 58605514}
   icons:
   - {fileID: 6937817954938267909, guid: c26f1336149de124fbe0f2c1a84e179c, type: 3}
@@ -2750,8 +2750,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1420257905}
   - {fileID: 1132280039}
+  - {fileID: 1420257905}
   - {fileID: 58605515}
   - {fileID: 1759962392}
   - {fileID: 74606575}
@@ -13592,7 +13592,7 @@ GameObject:
   - component: {fileID: 1132280041}
   - component: {fileID: 1132280040}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Slot1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16076,7 +16076,7 @@ GameObject:
   - component: {fileID: 1420257907}
   - component: {fileID: 1420257906}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Slot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -26,7 +26,7 @@ public class TriggerScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (interactionButton) return;
+        if (!interactionButton) return;
         _isPlayerInRange = true; 
 
         if (locked)

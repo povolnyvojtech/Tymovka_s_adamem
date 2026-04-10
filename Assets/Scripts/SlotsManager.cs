@@ -15,9 +15,10 @@ public class SlotsManager : MonoBehaviour
     public Sprite[] icons = new Sprite[7];
     
     private readonly List<int> _chosenIndexes = new List<int>() {-1,-1,-1};
+    private readonly List<int> _spinCount = new List<int>() {10,14,18};
     private bool _isSpinning;
 
-    private event Action finishedSpinning;
+    private event Action FinishedSpinning;
     private int _finishedSlots;
     
     public TextMeshProUGUI levelText;
@@ -33,7 +34,12 @@ public class SlotsManager : MonoBehaviour
             imgComponent.sprite = icons[Random.Range(0, icons.Length)];
         }
 
-        finishedSpinning += WinCheck;
+        FinishedSpinning += WinCheck;
+    }
+
+    private void Update()
+    {
+        if (_isSpinning) return;
     }
 
     public void Spin()
@@ -65,14 +71,14 @@ public class SlotsManager : MonoBehaviour
     {
         int chosenIndex = 0;
         Image imgComponent = slot.GetComponent<Image>();
-        for (int i = 0; i < Random.Range(10,15); i++)
+        for (int i = 0; i < _spinCount[currentImageIndex]; i++)
         {
             chosenIndex = Random.Range(0, icons.Length); 
             imgComponent.sprite = icons[chosenIndex]; 
             yield return new WaitForSeconds(0.1f);
         }
         _chosenIndexes[currentImageIndex] = chosenIndex;
-        finishedSpinning.Invoke();
+        FinishedSpinning?.Invoke();
     }
 
     private void WinCheck()
