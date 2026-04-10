@@ -1,50 +1,56 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public class TriggerScript : MonoBehaviour
 {
-    public GameObject interactionText;
+    public GameObject interactionButton;
+    public GameObject lockedText;
     public string targetScene;
     public bool locked;
     
+    private bool _isPlayerInRange;
 
     private void Start()
     {
-        targetScene ??= "none"; //dva otazníky znamenají, že pokud je vlevo null, přiřaď tomu to co je vlevo
-        interactionText.SetActive(false);
+        targetScene ??= "none";
+        interactionButton.SetActive(false);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void Update()
     {
-        if (other.CompareTag("Player") && interactionText != null)
-        {
-            interactionText.SetActive(true);
-        }
-        else
-        { 
-            Debug.Log("Chybí text. Enter");
-        }
-            
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.CompareTag("Player") && !locked && Input.GetKey(KeyCode.E) && targetScene != "none")
+        if (_isPlayerInRange && !locked && Input.GetKeyDown(KeyCode.E) && targetScene != "none")
         {
             SceneManager.LoadScene(targetScene);
         }
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") && interactionButton != null)
+        {
+            _isPlayerInRange = true; 
+
+            if (locked)
+            {
+                lockedText.SetActive(true);
+            }
+            interactionButton.SetActive(true);
+        }
+        else if (interactionButton == null && other.CompareTag("Player"))
+        { 
+            Debug.Log("Chybí interactionButton. Enter");
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && interactionText != null)
+        if (!other.CompareTag("Player") || interactionButton == null) return;
+        _isPlayerInRange = false;
+
+        if (locked)
         {
-            interactionText.SetActive(false);
+            lockedText.SetActive(false);
         }
-        else
-        { 
-            Debug.Log("Chybí text.  Exit");
-        }
+        interactionButton.SetActive(false);
     }
 }

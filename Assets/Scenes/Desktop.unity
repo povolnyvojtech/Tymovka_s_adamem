@@ -3524,7 +3524,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!224 &233125172
 RectTransform:
@@ -8747,7 +8747,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 6
   m_TargetDisplay: 0
 --- !u!224 &733906439
 RectTransform:
@@ -16391,7 +16391,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_TargetDisplay: 0
 --- !u!224 &1460528465
 RectTransform:
@@ -17073,7 +17073,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 7
   m_TargetDisplay: 0
 --- !u!224 &1566316355
 RectTransform:
@@ -21177,11 +21177,11 @@ SceneRoots:
   m_Roots:
   - {fileID: 824304427}
   - {fileID: 1566316355}
-  - {fileID: 1103103890}
-  - {fileID: 1460528465}
   - {fileID: 194598352}
-  - {fileID: 733906439}
   - {fileID: 233125172}
+  - {fileID: 1460528465}
+  - {fileID: 1103103890}
+  - {fileID: 733906439}
   - {fileID: 957657216}
   - {fileID: 1930691276}
   - {fileID: 52661532}
