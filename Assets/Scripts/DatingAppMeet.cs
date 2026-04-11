@@ -27,8 +27,8 @@ public class DatingAppMeet : MonoBehaviour
     
     private void OnEnable()
     {
-        titleText.text = GlobalVariables.HasRegistered ? "Meet the love of your life" : "You have to register first";
-        if (!GlobalVariables.HasRegistered) { panels.SetActive(false); return; }
+        titleText.text = GlobalVariables.DatingHasRegistered ? "Meet the love of your life" : "You have to register first";
+        if (!GlobalVariables.DatingHasRegistered) { panels.SetActive(false); return; }
         panels.SetActive(true);
         if (_generatedWomanProfile) return;
         GenerateWomenProfile();

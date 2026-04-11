@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SetActiveScene : MonoBehaviour
 {
@@ -6,5 +8,13 @@ public class SetActiveScene : MonoBehaviour
     void Start()
     {
         GlobalVariables.ActiveScene = "Desktop";
+    }
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "Desktop" && Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }

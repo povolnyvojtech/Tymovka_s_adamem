@@ -18,7 +18,7 @@ public class DatingWomanProfile : MonoBehaviour
     private WomanProfile _womanProfileData;
     public static event Action GenerateNewWomanProfileAction;
 
-    public void GenerateNewWomanProfile(bool way) //way - false - dislike, true - like
+    public void GenerateNextWomanProfile(bool way) //way - false - dislike, true - like
     {
         GlobalVariables.Way = way;
         GenerateNewWomanProfileAction.Invoke();

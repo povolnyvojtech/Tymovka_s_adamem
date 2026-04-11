@@ -10,9 +10,20 @@ using Random = UnityEngine.Random;
 public class SlotsManager : MonoBehaviour
 {
     public GameObject hasWonImage;
+    public TextMeshProUGUI hasWonText;
+    public TextMeshProUGUI wonMoneyText;
     public Button spinButton;
     public GameObject[] images = new GameObject[3]; 
     public Sprite[] icons = new Sprite[7];
+    /*
+    0 = Banana
+    1 = Cherry
+    2 = Melon
+    3 = Orange
+    4 = Plum
+    5 = Seven
+    6 = Lemon 
+    */
     
     private readonly List<int> _chosenIndexes = new List<int>() {-1,-1,-1};
     private readonly List<int> _spinCount = new List<int>() {10,14,18};
@@ -25,6 +36,8 @@ public class SlotsManager : MonoBehaviour
     public TextMeshProUGUI xpText;
     public TextMeshProUGUI moneyText;
     public GameObject notEnoughMoneyText;
+
+    private string _typeOfWin;
     
     private void Start()
     {
@@ -88,6 +101,53 @@ public class SlotsManager : MonoBehaviour
         _finishedSlots = 0;
         if (_chosenIndexes[0] == _chosenIndexes[1] && _chosenIndexes[1] == _chosenIndexes[2])
         {
+            switch (_chosenIndexes[0])
+            {
+                case 0:
+                {
+                    hasWonText.text = "Big Win";
+                    wonMoneyText.text = (10 * GlobalVariables.CurrentBet).ToString();
+                    break; //banana
+                }
+                case 1:
+                {
+                    hasWonText.text = "";
+                    wonMoneyText.text = (GlobalVariables.Money += 2 * GlobalVariables.CurrentBet).ToString();
+                    break; //cherry
+                }
+                case 2:
+                {
+                    hasWonText.text = "Big Win";
+                    wonMoneyText.text = (12 * GlobalVariables.CurrentBet).ToString();
+                    break; //melon
+                }
+                case 3:
+                {
+                    hasWonText.text = "Win";
+                    wonMoneyText.text = (7 * GlobalVariables.CurrentBet).ToString();
+                    break; //orange
+                }
+                case 4:
+                {
+                    hasWonText.text = "Big Win";
+                    wonMoneyText.text = (11 * GlobalVariables.CurrentBet).ToString();
+                    break; //plum
+                }
+                case 5:
+                {
+                    hasWonText.text = "MAX WIN!!!";
+                    wonMoneyText.text = (20 * GlobalVariables.CurrentBet).ToString();
+                    break; //seven
+                }
+                case 6:
+                {
+                    hasWonText.text = "Win";
+                    wonMoneyText.text = (6 * GlobalVariables.CurrentBet).ToString();
+                    break; //Lemon
+                }
+            }
+            
+            //číslo výhry - třešně, win - citron, pomeranč, big win - meloun, banán, švestky, max win - (6)7
             hasWonImage.SetActive(true);
             StartCoroutine(HideHasWonText());
             GlobalVariables.Money += 30*GlobalVariables.CurrentBet;

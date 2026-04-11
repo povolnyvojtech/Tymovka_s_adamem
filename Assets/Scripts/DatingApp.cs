@@ -9,7 +9,7 @@ public class DatingApp : MonoBehaviour
     
     void Start()
     {
-        if (!GlobalVariables.HasRegistered)
+        if (!GlobalVariables.DatingHasRegistered)
         {
             DatingRegistration.userHasRegistered += UpdateUserInfo;
         }
@@ -17,7 +17,7 @@ public class DatingApp : MonoBehaviour
 
     private void UpdateUserInfo()
     {
-        GlobalVariables.HasRegistered = true;
+        GlobalVariables.DatingHasRegistered = true;
         meetButton.SetActive(true);
         if (GlobalVariables.DatingName != "" || GlobalVariables.DatingSurname != "")
         {

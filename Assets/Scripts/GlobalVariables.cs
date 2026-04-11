@@ -32,7 +32,7 @@ public class GlobalVariables : MonoBehaviour
     public static int Money = 450;
     
     public static int HourRate = 10; //- hodinova sazba (cim vetsi Level, tim vetsi sazba)
-    private static int _level = 1;
+    public static int Level = 1;
     public static int Xp;
     
     //job variables
@@ -47,12 +47,12 @@ public class GlobalVariables : MonoBehaviour
     
 
     //dating variables
-    public static float GymLevel = 1; //TODO bude reprezentovano pomoci takovyho baru kde bude vyznaceno jak na tom je
-    public static float OverallLook = 1; //TODO to stejny jak GymLevel
-    public static float ChanceToGetHoes; //TODO nějaká formula pomocí GymLevelu, rizzu, OverallLooku, zkušeností
+    public static float GymLevel = 1; 
+    public static float OverallLook = 1; 
+    public static float ChanceToGetHoes;
     public static string DatingName;
     public static string DatingSurname;
-    public static bool HasRegistered = false;
+    public static bool DatingHasRegistered = false;
     public static GameObject PreviousWomanProfile;
     public static bool Way;
     
@@ -67,13 +67,13 @@ public class GlobalVariables : MonoBehaviour
     
     public static void LevelUp()
     {
-        _level = (Xp / 150) < 1 ? 1 : Xp / 150;
-        HourRate += (_level % 10 == 0) ? 5 : 0;
+        Level = (Xp / 150) < 1 ? 1 : Xp / 150;
+        HourRate += (Level % 10 == 0) ? 5 : 0;
     }
     
     public static void UpdateStats(TextMeshProUGUI levelText, TextMeshProUGUI xpText, TextMeshProUGUI moneyText)
     {
-        levelText.text = _level.ToString();
+        levelText.text = Level.ToString();
         xpText.text = Xp.ToString();
         moneyText.text = Money.ToString();
     }

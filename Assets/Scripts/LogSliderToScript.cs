@@ -11,25 +11,25 @@ public class LogSliderToScript : MonoBehaviour
     
     private void Awake()
     {
-        TimerManagerScript.LoggedJobTimerImageBG = currentJobTimerSliderBG;
-        TimerManagerScript.LoggedJobTimerImageFG = currentJobTimerSliderFG;
-        TimerManagerScript.TemporaryJobRt = currentJobTimerSliderFG.GetComponent<RectTransform>();
-        TimerManagerScript.LoggedPracticeTimerImageBG = practiceTimerSliderBG;
-        TimerManagerScript.LoggedPracticeTimerImageFG = practiceTimerSliderFG;
-        TimerManagerScript.TemporaryPracticeRt = practiceTimerSliderFG.GetComponent<RectTransform>();
+        TimerManagerScript.JobTimerImageBg = currentJobTimerSliderBG;
+        TimerManagerScript.JobTimerImageFg = currentJobTimerSliderFG;
+        TimerManagerScript.JobRt = currentJobTimerSliderFG.GetComponent<RectTransform>();
+        TimerManagerScript.PracticeTimerImageBg = practiceTimerSliderBG;
+        TimerManagerScript.PracticeTimerImageFg = practiceTimerSliderFG;
+        TimerManagerScript.PracticeRt = practiceTimerSliderFG.GetComponent<RectTransform>();
     }
 
     private void Update()
     {
-        if (!TimerManagerScript.LoggedJobTimerImageBG || !TimerManagerScript.LoggedJobTimerImageFG ||
-            !TimerManagerScript.LoggedPracticeTimerImageBG || !TimerManagerScript.LoggedPracticeTimerImageFG)
+        if (!TimerManagerScript.JobTimerImageBg || !TimerManagerScript.JobTimerImageFg ||
+            !TimerManagerScript.PracticeTimerImageBg || !TimerManagerScript.PracticeTimerImageFg)
         {
-            TimerManagerScript.LoggedJobTimerImageBG = currentJobTimerSliderBG;
-            TimerManagerScript.LoggedJobTimerImageFG = currentJobTimerSliderFG;
-            TimerManagerScript.TemporaryJobRt = currentJobTimerSliderFG.GetComponent<RectTransform>();
-            TimerManagerScript.LoggedPracticeTimerImageBG = practiceTimerSliderBG;
-            TimerManagerScript.LoggedPracticeTimerImageFG = practiceTimerSliderFG;
-            TimerManagerScript.TemporaryPracticeRt = practiceTimerSliderFG.GetComponent<RectTransform>();
+            TimerManagerScript.JobTimerImageBg = currentJobTimerSliderBG;
+            TimerManagerScript.JobTimerImageFg = currentJobTimerSliderFG;
+            TimerManagerScript.JobRt = currentJobTimerSliderFG.GetComponent<RectTransform>();
+            TimerManagerScript.PracticeTimerImageBg = practiceTimerSliderBG;
+            TimerManagerScript.PracticeTimerImageFg = practiceTimerSliderFG;
+            TimerManagerScript.PracticeRt = practiceTimerSliderFG.GetComponent<RectTransform>();
         }
     }
 }
