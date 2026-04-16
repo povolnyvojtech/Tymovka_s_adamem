@@ -4,6 +4,11 @@ public class SaveLoadData : MonoBehaviour
 {
     public void SaveData()
     {
+        #if UNITY_EDITOR || UNITY_WEBGL
+                Debug.Log("Saving data does not work in editor or web.");
+                return;
+        #endif
+        
         //BG variables
         PlayerPrefs.SetInt("HallBgLevel", GlobalVariables.HallBgLevel);
         PlayerPrefs.SetInt("CurrentHallBgUpgradeCost", GlobalVariables.CurrentHallBgUpgradeCost);
@@ -37,6 +42,10 @@ public class SaveLoadData : MonoBehaviour
 
     public void LoadData()
     {
+        #if UNITY_EDITOR || UNITY_WEBGL
+                Debug.Log("Saving data does not work in editor or web.");
+                return;
+        #endif
         GlobalVariables.HallBgLevel = PlayerPrefs.GetInt("HallBgLevel");
         GlobalVariables.CurrentHallBgUpgradeCost = PlayerPrefs.GetInt("CurrentHallBgUpgradeCost");
         GlobalVariables.BedroomBgLevel = PlayerPrefs.GetInt("BedroomBgLevel");
