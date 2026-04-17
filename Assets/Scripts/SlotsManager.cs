@@ -13,6 +13,9 @@ public class SlotsManager : MonoBehaviour
     public TextMeshProUGUI hasWonText;
     public TextMeshProUGUI wonMoneyText;
     public Button spinButton;
+    public Button raiseBetButton;
+    public Button lowerBetButton;
+    public Button maxBetButton;
     public GameObject[] images = new GameObject[3]; 
     public Sprite[] icons = new Sprite[7];
     /*
@@ -84,6 +87,10 @@ public class SlotsManager : MonoBehaviour
     {
         int chosenIndex = 0;
         Image imgComponent = slot.GetComponent<Image>();
+        raiseBetButton.interactable = false;
+        lowerBetButton.interactable = false;
+        maxBetButton.interactable = false;
+        spinButton.interactable = false;
         for (int i = 0; i < _spinCount[currentImageIndex]; i++)
         {
             chosenIndex = Random.Range(0, icons.Length); 
@@ -98,6 +105,10 @@ public class SlotsManager : MonoBehaviour
     {
         ++_finishedSlots;
         if (_finishedSlots != 3) return;
+        raiseBetButton.interactable = true;
+        lowerBetButton.interactable = true;
+        maxBetButton.interactable = true;
+        spinButton.interactable = true;
         _finishedSlots = 0;
         if (_chosenIndexes[0] == _chosenIndexes[1] && _chosenIndexes[1] == _chosenIndexes[2])
         {
