@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework.Constraints;
 using TMPro;
@@ -55,6 +56,8 @@ public class GlobalVariables : MonoBehaviour
     public static bool DatingHasRegistered = false;
     public static GameObject PreviousWomanProfile;
     public static bool Way;
+    public static WomanProfile CurrentWomanProfile;
+    public static List<List<string>> InboxWomen = new List<List<string>>(); 
     
     //gambling
     public static int CurrentBet = 10;
@@ -62,7 +65,7 @@ public class GlobalVariables : MonoBehaviour
 
     public static void CalculateChanceToGetGirls()
     {
-        ChanceToGetHoes = GymLevel + OverallLook + (HasJob ?  1 : 0) + Money + HallBgLevel + BedroomBgLevel; // hodnota musí být mezi 0 a 100 TODO domyslet rovnici
+        ChanceToGetHoes = Mathf.Clamp(GymLevel + OverallLook + (HasJob ? 1 : 0) + Money / 100 + HallBgLevel + BedroomBgLevel, 0, 100);
     }
     
     public static void LevelUp()

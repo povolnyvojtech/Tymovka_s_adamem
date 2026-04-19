@@ -12,6 +12,8 @@ public class DatingAppMeet : MonoBehaviour
     private bool _generatedWomanProfile;
     public GameObject panels;
     private WomanProfile _currentWomanProfile;
+    public GameObject inboxContent;
+    public GameObject messagePrefab;
     private readonly List<string> _names = new List<string>()
     {
         "Emma", "Olivia", "Sophia", "Ava", "Isabella", "Mia", "Amelia", "Harper",
@@ -34,9 +36,16 @@ public class DatingAppMeet : MonoBehaviour
         GenerateWomenProfile();
         _generatedWomanProfile = true;
         DatingWomanProfile.GenerateNewWomanProfileAction += GenerateWomenProfile;
+        DatingWomanProfile.SetupInboxMessageAction += InitiateInboxMessage;
+    }
+
+    private void InitiateInboxMessage()
+    {
+        Debug.Log("Generating Inbox Message");
+        Instantiate(messagePrefab, contentParent);
     }
     
-    private IEnumerator SlideAndDestroy(GameObject profileToDestroy)
+    private static IEnumerator SlideAndDestroy(GameObject profileToDestroy)
     {
         GameObject objectToAnimate = profileToDestroy;
         if (!objectToAnimate) yield break;
@@ -54,7 +63,7 @@ public class DatingAppMeet : MonoBehaviour
             yield return null;
         }
 
-        if (objectToAnimate != null) 
+        if (objectToAnimate) 
         {
             Destroy(objectToAnimate);
         }
@@ -67,7 +76,6 @@ public class DatingAppMeet : MonoBehaviour
         {
             StartCoroutine(SlideAndDestroy(objectToAnimate));
         }
-        Debug.Log("Generating WomenProfile");
         string womanName = _names[Random.Range(0, 15)];
         string age = Random.Range(15, 30).ToString();
         string hobbies = "";

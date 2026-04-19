@@ -17,17 +17,42 @@ public class DatingWomanProfile : MonoBehaviour
     private Texture2D _myTexture;
     private WomanProfile _womanProfileData;
     public static event Action GenerateNewWomanProfileAction;
+    public static event Action SetupInboxMessageAction;
+    private List<string> _inboxWomenMessages = new List<string>()
+    {
+        "Mám doma nový nůž a ještě jsem ho na nikom nezkoušela. Přijdeš mi ho ‚pokřtít‘? 😈",
+        "Chci tě svázat, nacpat ti hadici do krku a sledovat, jak se ti mění barva obličeje. Budeš můj nejoblíbenější experiment.",
+        "Sejdeme se v lese za městem. Přines si lopatu, ať nemusím nosit dvě.",
+        "Ráda sbírám trofeje. Tentokrát bych chtěla levou ledvinu. Přijdeš dobrovolně, nebo tě mám omámit?",
+        "Přijď v černém. Nechci, aby bylo vidět krev, až tě budu řezat pomalu.",
+        "Mám sklep, kde nikdo neslyší křičet. Chceš si vyzkoušet, jak dlouho vydržíš, než začneš prosit o smrt?",
+        "Napiš mi svou krevní skupinu a jestli máš alergii na chloroform. Potřebuju vědět, jak tě nejlépe připravit.",
+        "Chci tě rozřezat na kousky a uvařit si z tebe polévku. Ale nejdřív tě pomalu olíznu… všude.",
+        "Sejdeme se u mě. Přines si zubní kartáček… ať máš co žvýkat, až ti vytrhám zuby kleštěmi.",
+        "Jsem tvoje poslední rande. Po mně už nikdy nikoho nepotkáš. Přijdeš, nebo mám přijít já pro tebe?"
+    }; 
+    
 
     public void GenerateNextWomanProfile(bool way) //way - false - dislike, true - like
     {
         GlobalVariables.Way = way;
-        GenerateNewWomanProfileAction.Invoke();
+       
+        GlobalVariables.CalculateChanceToGetGirls();
+        if (GlobalVariables.ChanceToGetHoes >= 0 && UnityEngine.Random.Range(0,2) == 0)
+        {
+            WomanProfile previousWomanProfile = GlobalVariables.CurrentWomanProfile;
+            GlobalVariables.InboxWomen.Add(new List<string> {previousWomanProfile.ProfileName, _inboxWomenMessages[UnityEngine.Random.Range(0,_inboxWomenMessages.Count)]});
+            SetupInboxMessageAction?.Invoke();
+        }
+        
+        Debug.Log("After Generating Inbox Message");
+        GenerateNewWomanProfileAction?.Invoke();
     }
 
     public void SetupDatingWomanProfile(WomanProfile womanProfile)
     {
         _womanProfileData = womanProfile;
-        Debug.Log("Setup WomanProfile");
+        GlobalVariables.CurrentWomanProfile = womanProfile;
         RefreshUI();
     }
     
