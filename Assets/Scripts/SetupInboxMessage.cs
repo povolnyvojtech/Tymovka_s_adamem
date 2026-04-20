@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -5,11 +7,10 @@ public class SetupInboxMessage : MonoBehaviour
 {
     public TextMeshProUGUI womanNameText;
     public TextMeshProUGUI messageText;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    public void SetupMessage(List<string> inboxWomenMessages)
     {
-        womanNameText.text = "Woman: ";
-        messageText.text = "";
+        womanNameText.text = "Name: " + inboxWomenMessages[0] + " - " +  inboxWomenMessages[1];
+        messageText.text = inboxWomenMessages[2];
     }
 }

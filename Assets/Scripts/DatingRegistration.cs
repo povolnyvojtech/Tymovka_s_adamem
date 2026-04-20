@@ -26,6 +26,7 @@ public class DatingRegistration : MonoBehaviour
         if (nameInput.text == "" || surnameInput.text == "") return;
         GlobalVariables.DatingName = nameInput.text;
         GlobalVariables.DatingSurname = surnameInput.text;
+        GlobalVariables.DatingHasRegistered = true;
         registrationDisplay.SetActive(false);
         profileDisplay.SetActive(true);
         userHasRegistered?.Invoke();

@@ -12,7 +12,7 @@ public class DatingAppMeet : MonoBehaviour
     private bool _generatedWomanProfile;
     public GameObject panels;
     private WomanProfile _currentWomanProfile;
-    public GameObject inboxContent;
+    public Transform inboxContent;
     public GameObject messagePrefab;
     private readonly List<string> _names = new List<string>()
     {
@@ -36,13 +36,26 @@ public class DatingAppMeet : MonoBehaviour
         GenerateWomenProfile();
         _generatedWomanProfile = true;
         DatingWomanProfile.GenerateNewWomanProfileAction += GenerateWomenProfile;
-        DatingWomanProfile.SetupInboxMessageAction += InitiateInboxMessage;
+        DatingWomanProfile.SetupInboxMessageAction += InitiateInboxMessages;
     }
 
-    private void InitiateInboxMessage()
+    private void InitiateInboxMessages()
     {
-        Debug.Log("Generating Inbox Message");
-        Instantiate(messagePrefab, contentParent);
+        ClearInbox();
+        foreach (List<string> womanProfileMessage in GlobalVariables.InboxWomen)
+        {
+            GameObject newInboxMessage = Instantiate(messagePrefab, inboxContent);
+            newInboxMessage.GetComponent<SetupInboxMessage>().SetupMessage(womanProfileMessage);   
+        }
+        ++GlobalVariables.CurrentInboxMessagesCount;
+    }
+
+    private void ClearInbox()
+    {
+        foreach (Transform child in inboxContent)
+        {
+            Destroy(child.gameObject);
+        }
     }
     
     private static IEnumerator SlideAndDestroy(GameObject profileToDestroy)

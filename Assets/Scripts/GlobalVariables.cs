@@ -58,6 +58,8 @@ public class GlobalVariables : MonoBehaviour
     public static bool Way;
     public static WomanProfile CurrentWomanProfile;
     public static List<List<string>> InboxWomen = new List<List<string>>(); 
+    public static List<Texture> PhotosTextures =  new List<Texture>();
+    public static int CurrentInboxMessagesCount = 0;
     
     //gambling
     public static int CurrentBet = 10;

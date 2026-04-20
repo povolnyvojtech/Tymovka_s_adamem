@@ -18,7 +18,7 @@ public class DatingWomanProfile : MonoBehaviour
     private WomanProfile _womanProfileData;
     public static event Action GenerateNewWomanProfileAction;
     public static event Action SetupInboxMessageAction;
-    private List<string> _inboxWomenMessages = new List<string>()
+    private readonly List<string> _inboxWomenMessages = new List<string>()
     {
         "Mám doma nový nůž a ještě jsem ho na nikom nezkoušela. Přijdeš mi ho ‚pokřtít‘? 😈",
         "Chci tě svázat, nacpat ti hadici do krku a sledovat, jak se ti mění barva obličeje. Budeš můj nejoblíbenější experiment.",
@@ -38,14 +38,12 @@ public class DatingWomanProfile : MonoBehaviour
         GlobalVariables.Way = way;
        
         GlobalVariables.CalculateChanceToGetGirls();
-        if (GlobalVariables.ChanceToGetHoes >= 0 && UnityEngine.Random.Range(0,2) == 0)
+        if (way && GlobalVariables.ChanceToGetHoes >= 0 && UnityEngine.Random.Range(0,2) == 0 && GlobalVariables.CurrentInboxMessagesCount < 2)
         {
             WomanProfile previousWomanProfile = GlobalVariables.CurrentWomanProfile;
-            GlobalVariables.InboxWomen.Add(new List<string> {previousWomanProfile.ProfileName, _inboxWomenMessages[UnityEngine.Random.Range(0,_inboxWomenMessages.Count)]});
+            GlobalVariables.InboxWomen.Add(new List<string> {previousWomanProfile.ProfileName, previousWomanProfile.Age, _inboxWomenMessages[UnityEngine.Random.Range(0,_inboxWomenMessages.Count)]});
             SetupInboxMessageAction?.Invoke();
         }
-        
-        Debug.Log("After Generating Inbox Message");
         GenerateNewWomanProfileAction?.Invoke();
     }
 
@@ -59,7 +57,6 @@ public class DatingWomanProfile : MonoBehaviour
     public void RefreshUI()
     {
         if (_womanProfileData == null) return;
-        Debug.Log("Refreshing WomanProfile UI");
         _myTexture = profilePicture;
         Rect rect = new Rect(0, 0, _myTexture.width, _myTexture.height);
         Sprite profilePictureSprite = Sprite.Create(_myTexture, rect, new Vector2(0.5f, 0.5f));

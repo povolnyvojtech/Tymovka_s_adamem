@@ -11,7 +11,6 @@ public class PhotoManager : MonoBehaviour
     private string _path;
     
     public RawImage[] images;
-    private List<Texture> _textures =  new List<Texture>(); 
     
     
     private void Start()
@@ -21,12 +20,12 @@ public class PhotoManager : MonoBehaviour
 
     private void RefreshPhotos()
     {
-        if (images.Length == 0 || _textures.Count == 4) return;
+        if (images.Length == 0 || GlobalVariables.PhotosTextures.Count == 4) return;
         for (int i = 0; i < images.Length; i++)
         {
-            if (i < _textures.Count)
+            if (i < GlobalVariables.PhotosTextures.Count)
             {
-                images[i].texture = _textures[i];
+                images[i].texture = GlobalVariables.PhotosTextures[i];
                 images[i].enabled = true;
                 continue;
             }
@@ -55,7 +54,7 @@ public class PhotoManager : MonoBehaviour
             case UnityWebRequest.Result.Success:
             {
                 Texture newTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-                _textures.Add(newTexture);
+                GlobalVariables.PhotosTextures.Add(newTexture);
                 RefreshPhotos();
                 break;
             }
