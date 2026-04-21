@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -135,6 +136,15 @@ public class TimerManagerScript : MonoBehaviour
         if (JobManager.Instance)
         {
             JobManager.Instance.RefreshUI();
+        }
+    }
+
+    public static IEnumerator InboxMessageDestroyTimer(Transform inboxContent)
+    {
+        yield return new WaitForSeconds(2f);
+        foreach (Transform message in inboxContent)
+        {
+            Destroy(message.gameObject);
         }
     }
 }

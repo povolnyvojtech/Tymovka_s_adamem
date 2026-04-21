@@ -47,6 +47,8 @@ public class DatingAppMeet : MonoBehaviour
             GameObject newInboxMessage = Instantiate(messagePrefab, inboxContent);
             newInboxMessage.GetComponent<SetupInboxMessage>().SetupMessage(womanProfileMessage);   
         }
+
+        StartCoroutine(TimerManagerScript.InboxMessageDestroyTimer(inboxContent));
         ++GlobalVariables.CurrentInboxMessagesCount;
     }
 
