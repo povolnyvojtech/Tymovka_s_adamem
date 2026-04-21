@@ -49,7 +49,6 @@ public class DatingAppMeet : MonoBehaviour
         }
 
         StartCoroutine(TimerManagerScript.InboxMessageDestroyTimer(inboxContent));
-        ++GlobalVariables.CurrentInboxMessagesCount;
     }
 
     private void ClearInbox()

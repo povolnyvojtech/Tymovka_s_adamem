@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class PracticeCanvasManager : MonoBehaviour
 {
-    public Button qualityUpgradeButton;
     public TextMeshProUGUI qualityLevelText;
-    public Button speedUpgradeButton;
     public TextMeshProUGUI speedLevelText;
 
     public GameObject finishedCanvas;
@@ -24,9 +22,6 @@ public class PracticeCanvasManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-        qualityUpgradeButton.onClick.AddListener((RaiseQualityMultiplier));
-        speedUpgradeButton.onClick.AddListener((RaiseSpeedMultiplier));
     }
     
     private void Start()
@@ -40,15 +35,6 @@ public class PracticeCanvasManager : MonoBehaviour
         RefreshLevelText(qualityLevelText, 0);
         RefreshLevelText(speedLevelText, 1);
     }
-    
-    public void SetButtonListener(Button button, int type)
-    {
-        switch (type)
-        {
-            case 0: button.onClick.AddListener((RaiseQualityMultiplier)); break;
-            case 1: button.onClick.AddListener((RaiseSpeedMultiplier)); break;
-        }
-    }
 
     public void RefreshLevelText(TextMeshProUGUI levelText, int type)
     {
@@ -59,18 +45,7 @@ public class PracticeCanvasManager : MonoBehaviour
         }
     }
     
-    public void RefreshButtonText(Button button, int type)
-    {
-        Image imgComponent = button.GetComponent<Image>();
-        switch (type)
-        { 
-            //TODO změnit akorát sprite
-            case 0: /*imgComponent.sprite = ;*/ break;
-            case 1: /*imgComponent.sprite = ;*/ break;
-        }
-    }
-    
-    private void RaiseQualityMultiplier()
+    public void RaiseQualityMultiplier()
     {
         if (GlobalVariables.IsPracticing || GlobalVariables.QualityLevel == 10) return;
         GlobalVariables.IsPracticing = true;
@@ -79,9 +54,10 @@ public class PracticeCanvasManager : MonoBehaviour
         StartCoroutine(QualityPractisingTimer());
     }
     
-    private void RaiseSpeedMultiplier()
+    public void RaiseSpeedMultiplier()
     {
-        if (GlobalVariables.IsPracticing || GlobalVariables.SpeedLevel== 10) return;
+        if (GlobalVariables.IsPracticing || GlobalVariables.SpeedLevel == 10) return;
+        Debug.Log("Starting practice");
         GlobalVariables.IsPracticing = true;
         GlobalVariables.CurrentPracticingType = 1;
         StartCoroutine(TimerManagerScript.PracticingTimer(1));
@@ -99,7 +75,6 @@ public class PracticeCanvasManager : MonoBehaviour
         if (GlobalVariables.ActiveScene == "Desktop" && qualityLevelText)
         {
             qualityLevelText.text = "Level " + (GlobalVariables.QualityLevel);
-            RefreshButtonText(qualityUpgradeButton, 0);
         }
         
         GlobalVariables.QualityMultiplier += 0.1f;
@@ -118,7 +93,6 @@ public class PracticeCanvasManager : MonoBehaviour
         RefreshLevelText(speedLevelText, 1);
         GlobalVariables.CurrentPracticingType = 2;
         speedLevelText.text = "Level " + (GlobalVariables.SpeedLevel);
-        RefreshButtonText(speedUpgradeButton, 1);
         if ((GlobalVariables.SpeedMultiplier -= 0.07f) > 0) GlobalVariables.SpeedMultiplier -= 0.07f;
         --GlobalVariables.SpeedPractisingTime;
         if (finishedCanvas)

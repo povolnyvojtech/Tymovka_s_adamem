@@ -2,22 +2,25 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
+    private static readonly int Speed = Animator.StringToHash("Speed");
     [SerializeField] private float speed = 10f;
 
     public Rigidbody2D rb;
     private float _moveInput;
     private bool _facingRight = true;
+    private Animator _anim;
 
     private void Awake()
     { 
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        _anim = GetComponent<Animator>();
     }
 
     private void Update()
     {
         _moveInput = Input.GetAxisRaw("Horizontal");
-
+        _anim.SetFloat(Speed, _moveInput != 0 ? 1f : 0f);
         if (_moveInput > 0 && !_facingRight || _moveInput < 0 && _facingRight)
         {
             Flip();

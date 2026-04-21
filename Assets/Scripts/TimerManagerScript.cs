@@ -52,53 +52,39 @@ public class TimerManagerScript : MonoBehaviour
 
     public static IEnumerator CurrentJobTimer(int jobTime, int jobMoney, int jobXp)
     {
-        Debug.Log("0");
-        Debug.Log(JobTimerImageBg);
         JobTimerImageBg.SetActive(true);
-        Debug.Log("1");
         float totalToGrow = 200f;
         float duration = jobTime;
         float growthPerSecond = totalToGrow / duration;
         CurrentJobTimeLeft = jobTime * GlobalVariables.SpeedMultiplier;
         
-        Debug.Log("2");
         Debug.Log(CurrentJobTimeLeft);
         while (CurrentJobTimeLeft > 0)
         {
-            Debug.Log("3");
             yield return null;
             CurrentJobTimeLeft -= Time.deltaTime;
-            Debug.Log("4");
             GlobalVariables.CurrentJobTimerSliderValue += growthPerSecond * Time.deltaTime;
 
-            Debug.Log("5");
             if (!JobTimerImageBg || !JobTimerImageFg || !JobRt) continue;
             
             if (GlobalVariables.HasJob && GlobalVariables.ActiveScene == "Desktop")
             {
-                Debug.Log("6");
                 JobTimerImageBg.SetActive(true);
-                Debug.Log("7");
                 JobRt.sizeDelta = new Vector2(GlobalVariables.CurrentJobTimerSliderValue, 30);
             }
         }
         
         GlobalVariables.HasJob = false;
-        Debug.Log("8");
         JobFinished?.Invoke();
-        Debug.Log("9");
         JobTimerImageBg.SetActive(false);
         GlobalVariables.CurrentJobTimerSliderValue = 0;
         GlobalVariables.Money += (int)Mathf.Round(jobMoney * GlobalVariables.QualityMultiplier);
         GlobalVariables.Xp += jobXp;
         GlobalVariables.LevelUp();
         
-        Debug.Log("10");
         if (JobManager.Instance)
         {
-            Debug.Log("11");
             JobManager.Instance.RefreshUI();
-            Debug.Log("12");
         }
     }
 
@@ -132,6 +118,7 @@ public class TimerManagerScript : MonoBehaviour
         
         PracticeTimerImageBg.SetActive(false);
         GlobalVariables.CurrentPracticeTimerSliderValue = 0;
+        GlobalVariables.IsPracticing = false;
         
         if (JobManager.Instance)
         {
@@ -146,5 +133,7 @@ public class TimerManagerScript : MonoBehaviour
         {
             Destroy(message.gameObject);
         }
+        GlobalVariables.InboxWomen.Clear();
+        Debug.Log(GlobalVariables.InboxWomen.Count);
     }
 }

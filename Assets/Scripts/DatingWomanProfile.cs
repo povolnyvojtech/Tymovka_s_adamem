@@ -38,7 +38,7 @@ public class DatingWomanProfile : MonoBehaviour
         GlobalVariables.Way = way;
        
         GlobalVariables.CalculateChanceToGetGirls();
-        if (way && GlobalVariables.ChanceToGetHoes >= 0 && UnityEngine.Random.Range(0,2) == 0 && GlobalVariables.CurrentInboxMessagesCount < 2)
+        if (way && GlobalVariables.ChanceToGetHoes >= 0 && UnityEngine.Random.Range(0,2) == 0 && GlobalVariables.InboxWomen.Count < 2)
         {
             WomanProfile previousWomanProfile = GlobalVariables.CurrentWomanProfile;
             GlobalVariables.InboxWomen.Add(new List<string> {previousWomanProfile.ProfileName, previousWomanProfile.Age, _inboxWomenMessages[UnityEngine.Random.Range(0,_inboxWomenMessages.Count)]});

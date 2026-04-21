@@ -59,8 +59,6 @@ public class GlobalVariables : MonoBehaviour
     public static WomanProfile CurrentWomanProfile;
     public static List<List<string>> InboxWomen = new List<List<string>>(); 
     public static List<Texture> PhotosTextures =  new List<Texture>();
-    public static int CurrentInboxMessagesCount = 0;
-    public static List<GameObject> InboxMessages = new List<GameObject>();
     
     //gambling
     public static int CurrentBet = 10;
@@ -101,7 +99,6 @@ public class GlobalVariables : MonoBehaviour
     {
         if (practiceTimeLeft > 0 && practiceRemainingTimeStatsText && IsPracticing)
         {
-            //CalcTime((int)Mathf.Round(practiceTimeLeft), practiceRemainingTimeStatsText, 1);
             practiceRemainingTimeStatsText.text = "";
             practiceRewardStatsText.text = practiceType switch
             {
