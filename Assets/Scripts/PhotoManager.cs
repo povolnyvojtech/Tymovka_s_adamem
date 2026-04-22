@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using SFB;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -36,27 +37,41 @@ public class PhotoManager : MonoBehaviour
 
     public void OpenFileExplorer()
     {
-        _path = EditorUtility.OpenFilePanel("Open Photo File", "Assets", "png");
-        StartCoroutine(GetPhotos());
+        var extensions = new[] {
+            new ExtensionFilter("Image Files", "png", "jpg", "jpeg")
+        };
 
+        StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", extensions, false, (string[] paths) => 
+        {
+            if (paths.Length > 0 && !string.IsNullOrEmpty(paths[0]))
+            {
+                _path = paths[0];
+
+                if (!_path.StartsWith("file://") && !_path.StartsWith("http"))
+                {
+                    _path = "file://" + _path;
+                }
+
+                StartCoroutine(GetPhotos());
+            }
+        });
     }
 
     private IEnumerator GetPhotos()
     {
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture("file://" + _path);
-        yield return www.SendWebRequest();
-
-        switch (www.result)
+        using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(_path))
         {
-            case UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError:
-                Debug.Log(www.error);
-                break;
-            case UnityWebRequest.Result.Success:
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
             {
-                Texture newTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                Debug.LogError("Chyba při načítání: " + www.error);
+            }
+            else
+            {
+                Texture2D newTexture = DownloadHandlerTexture.GetContent(www);
                 GlobalVariables.PhotosTextures.Add(newTexture);
                 RefreshPhotos();
-                break;
             }
         }
     }
