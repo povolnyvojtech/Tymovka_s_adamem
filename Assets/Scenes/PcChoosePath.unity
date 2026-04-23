@@ -1452,7 +1452,8 @@ PrefabInstance:
       propertyPath: m_NormalizedViewPortRect.height
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 779184787639077423, guid: 08a0188facae87248b98d2ad7e41dc71, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3241,7 +3242,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.5599976, y: 0}
+  m_AnchoredPosition: {x: 2.5600586, y: 0}
   m_SizeDelta: {x: 30.65, y: 25.54}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1269603164
