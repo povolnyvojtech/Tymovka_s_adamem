@@ -61,7 +61,8 @@ public class GlobalVariables : MonoBehaviour
     public static List<Texture> PhotosTextures =  new List<Texture>();
     
     //gambling
-    public static int CurrentBet = 10;
+    public static int CurrentSlotBet = 10;
+    public static int CurrentBlackJackBet = 10;
 
 
     public static void CalculateChanceToGetGirls()

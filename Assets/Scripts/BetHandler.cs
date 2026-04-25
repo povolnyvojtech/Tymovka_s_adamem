@@ -8,10 +8,23 @@ public class BetHandler : MonoBehaviour
     public Button lowerBetButton;
     public Button riseBetButton;
     public Button maxBetButton;
+    public int type;
 
     private void Start()
     {
-        currentBetText.text = GlobalVariables.CurrentBet.ToString();
+        switch (type)
+        {
+            case 0:
+            {
+                currentBetText.text = GlobalVariables.CurrentSlotBet.ToString();
+                break;
+            }
+            case 1:
+            {
+                currentBetText.text = GlobalVariables.CurrentBlackJackBet.ToString();
+                break;
+            }
+        }
         lowerBetButton.onClick.AddListener(LowerBet);
         riseBetButton.onClick.AddListener(RiseBet);
         maxBetButton.onClick.AddListener(MaxBet);
@@ -19,16 +32,44 @@ public class BetHandler : MonoBehaviour
 
     private void LowerBet()
     {
-        if (GlobalVariables.CurrentBet - 10 < 0) return;
-        GlobalVariables.CurrentBet -= 10;
-        currentBetText.text = GlobalVariables.CurrentBet.ToString();
+        switch (type)
+        {
+            case 0:
+            {
+                if (GlobalVariables.CurrentSlotBet - 10 < 0) return;
+                GlobalVariables.CurrentSlotBet -= 10;
+                currentBetText.text = GlobalVariables.CurrentSlotBet.ToString();
+                break;
+            }
+            case 1:
+            {
+                if (GlobalVariables.CurrentBlackJackBet - 10 < 0) return;
+                GlobalVariables.CurrentBlackJackBet -= 10;
+                currentBetText.text = GlobalVariables.CurrentBlackJackBet.ToString();
+                break;
+            }
+        }
     }
 
     private void RiseBet()
     {
-        if (GlobalVariables.CurrentBet + 10 > GlobalVariables.Money) return;
-        GlobalVariables.CurrentBet += 10;
-        currentBetText.text = GlobalVariables.CurrentBet.ToString();
+        switch (type)
+        {
+            case 0:
+            {
+                if (GlobalVariables.CurrentSlotBet + 10 > GlobalVariables.Money) return;
+                GlobalVariables.CurrentSlotBet += 10;
+                currentBetText.text = GlobalVariables.CurrentSlotBet.ToString();
+                break;
+            }
+            case 1:
+            {
+                if (GlobalVariables.CurrentBlackJackBet + 10 > GlobalVariables.Money) return;
+                GlobalVariables.CurrentBlackJackBet += 10;
+                currentBetText.text = GlobalVariables.CurrentBlackJackBet.ToString();
+                break;
+            }
+        }
     }
 
     private void MaxBet()
@@ -38,8 +79,22 @@ public class BetHandler : MonoBehaviour
             currentBetText.text = "0";
             return;
         }
-        GlobalVariables.CurrentBet = GlobalVariables.Money;
-        currentBetText.text = GlobalVariables.CurrentBet.ToString();
+
+        switch (type)
+        {
+            case 0:
+            {
+                GlobalVariables.CurrentSlotBet = GlobalVariables.Money;
+                currentBetText.text = GlobalVariables.CurrentSlotBet.ToString();
+                break;
+            }
+            case 1:
+            {
+                GlobalVariables.CurrentBlackJackBet = GlobalVariables.Money;
+                currentBetText.text = GlobalVariables.CurrentBlackJackBet.ToString();
+                break;
+            }
+        }
     }
     
     

@@ -61,12 +61,12 @@ public class SlotsManager : MonoBehaviour
     public void Spin()
     {
         if (_isSpinning) return;
-        if (GlobalVariables.Money < GlobalVariables.CurrentBet)
+        if (GlobalVariables.Money < GlobalVariables.CurrentSlotBet)
         {
             StartCoroutine(ShowNotEnoughMoneyText());
             return;
         }
-        GlobalVariables.Money -= GlobalVariables.CurrentBet;
+        GlobalVariables.Money -= GlobalVariables.CurrentSlotBet;
         GlobalVariables.UpdateStats(levelText, xpText, moneyText);
         _isSpinning = true;
         
@@ -117,43 +117,43 @@ public class SlotsManager : MonoBehaviour
                 case 0:
                 {
                     hasWonText.text = "Big Win";
-                    wonMoneyText.text = (10 * GlobalVariables.CurrentBet).ToString();
+                    wonMoneyText.text = (10 * GlobalVariables.CurrentSlotBet).ToString();
                     break; //banana
                 }
                 case 1:
                 {
                     hasWonText.text = "";
-                    wonMoneyText.text = (GlobalVariables.Money += 2 * GlobalVariables.CurrentBet).ToString();
+                    wonMoneyText.text = (GlobalVariables.Money += 2 * GlobalVariables.CurrentSlotBet).ToString();
                     break; //cherry
                 }
                 case 2:
                 {
                     hasWonText.text = "Big Win";
-                    wonMoneyText.text = (12 * GlobalVariables.CurrentBet).ToString();
+                    wonMoneyText.text = (12 * GlobalVariables.CurrentSlotBet).ToString();
                     break; //melon
                 }
                 case 3:
                 {
                     hasWonText.text = "Win";
-                    wonMoneyText.text = (7 * GlobalVariables.CurrentBet).ToString();
+                    wonMoneyText.text = (7 * GlobalVariables.CurrentSlotBet).ToString();
                     break; //orange
                 }
                 case 4:
                 {
                     hasWonText.text = "Big Win";
-                    wonMoneyText.text = (11 * GlobalVariables.CurrentBet).ToString();
+                    wonMoneyText.text = (11 * GlobalVariables.CurrentSlotBet).ToString();
                     break; //plum
                 }
                 case 5:
                 {
                     hasWonText.text = "MAX WIN!!!";
-                    wonMoneyText.text = (20 * GlobalVariables.CurrentBet).ToString();
+                    wonMoneyText.text = (20 * GlobalVariables.CurrentSlotBet).ToString();
                     break; //seven
                 }
                 case 6:
                 {
                     hasWonText.text = "Win";
-                    wonMoneyText.text = (6 * GlobalVariables.CurrentBet).ToString();
+                    wonMoneyText.text = (6 * GlobalVariables.CurrentSlotBet).ToString();
                     break; //Lemon
                 }
             }
@@ -161,7 +161,7 @@ public class SlotsManager : MonoBehaviour
             //číslo výhry - třešně, win - citron, pomeranč, big win - meloun, banán, švestky, max win - (6)7
             hasWonImage.SetActive(true);
             StartCoroutine(HideHasWonText());
-            GlobalVariables.Money += 30*GlobalVariables.CurrentBet;
+            GlobalVariables.Money += 30*GlobalVariables.CurrentSlotBet;
             GlobalVariables.UpdateStats(levelText, xpText, moneyText);
         }
         _isSpinning = false;
