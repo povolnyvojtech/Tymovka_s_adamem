@@ -57,7 +57,6 @@ public class PracticeCanvasManager : MonoBehaviour
     public void RaiseSpeedMultiplier()
     {
         if (GlobalVariables.IsPracticing || GlobalVariables.SpeedLevel == 10) return;
-        Debug.Log("Starting practice");
         GlobalVariables.IsPracticing = true;
         GlobalVariables.CurrentPracticingType = 1;
         StartCoroutine(TimerManagerScript.PracticingTimer(1));
@@ -95,6 +94,7 @@ public class PracticeCanvasManager : MonoBehaviour
         speedLevelText.text = "Level " + (GlobalVariables.SpeedLevel);
         if ((GlobalVariables.SpeedMultiplier -= 0.07f) > 0) GlobalVariables.SpeedMultiplier -= 0.07f;
         --GlobalVariables.SpeedPractisingTime;
+        GlobalVariables.IsPracticing = false;
         if (finishedCanvas)
         {
             finishedCanvas.SetActive(true);

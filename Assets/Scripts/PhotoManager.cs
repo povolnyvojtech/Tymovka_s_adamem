@@ -12,7 +12,6 @@ public class PhotoManager : MonoBehaviour
     private string _path;
     public RawImage[] images;
 
-    // --- WebGL podpora ---
 #if UNITY_WEBGL && !UNITY_EDITOR
     [DllImport("__Internal")]
     private static extern void UploadFile(string gameObjectName, string methodName, string filter, bool multiple);
@@ -29,7 +28,6 @@ public class PhotoManager : MonoBehaviour
         StartCoroutine(GetPhotos());
     }
 #else
-    // --- PC / Editor podpora ---
     public void OpenFileExplorer()
     {
         var extensions = new[] {
