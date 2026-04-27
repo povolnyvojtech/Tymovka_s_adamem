@@ -25,7 +25,7 @@ public class BlackJackManager : MonoBehaviour
     public TextMeshProUGUI globalMoneyText;
     private int _playerCounter;
     private int _dealerCounter;
-    private Dictionary<string, int> hodnotyKaret = new Dictionary<string, int>()
+    private readonly Dictionary<string, int> _cardsValue = new Dictionary<string, int>()
     {
         {"2", 2}, {"3", 3}, {"4", 4}, {"5", 5},
         {"6", 6}, {"7", 7}, {"8", 8}, {"9", 9}, {"10", 10},
@@ -67,17 +67,17 @@ public class BlackJackManager : MonoBehaviour
             StartCoroutine(HideText(false));
             yield return null;
         }
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         hitButton.interactable = false;
         stayButton.interactable = false;
         
-        List<string> cardNames = hodnotyKaret.Keys.ToList();
+        List<string> cardNames = _cardsValue.Keys.ToList();
         string dealtCardsString = "";
         
         //deal to player
         for (int i = 0; i < 2; i++)
         {
-            int value = hodnotyKaret[cardNames[Random.Range(0, cardNames.Count)]];
+            int value = _cardsValue[cardNames[Random.Range(0, cardNames.Count)]];
             _playerCounter += value;
             playerNumber1.text = value.ToString();
             playerNumber2.text = value.ToString();
@@ -97,17 +97,7 @@ public class BlackJackManager : MonoBehaviour
             playerDealtCardsDisplayer.text = dealtCardsString;
             dealtCardsString = "";
             
-            if (_playerCounter > 21)
-            {
-                hasWonImage.SetActive(true);
-                hasWonText.text = "You lost";
-                wonMoneyText.text = "";
-                StartCoroutine(HideText(true));
-                GlobalVariables.CurrentBlackJackBet = 10;
-                _playerCounter = 0;
-                PrepareForNewRound();
-                yield break;
-            }
+            
 
             yield return new WaitForSeconds(1f);
         }
@@ -115,7 +105,7 @@ public class BlackJackManager : MonoBehaviour
         //deal to dealer
         for (int i = 0; i < 2; i++)
         {
-            int value = hodnotyKaret[cardNames[Random.Range(0, cardNames.Count)]];
+            int value = _cardsValue[cardNames[Random.Range(0, cardNames.Count)]];
             _dealerCounter += value;
             _dealerDealtCards.Add(value);
             for (int j = 0; j < _dealerDealtCards.Count; j++)
@@ -136,18 +126,8 @@ public class BlackJackManager : MonoBehaviour
             dealerCountDisplayer.text = _dealerDealtCards[0].ToString();
             dealerDealtCardsDisplayer.text = dealtCardsString;
             dealtCardsString = "";
-            
-            if (_dealerCounter > 21)
-            {
-                hasWonText.text = "You win";
-                wonMoneyText.text = (GlobalVariables.CurrentBlackJackBet * 2).ToString();
-                StartCoroutine(HideText(true));
-                GlobalVariables.CurrentBlackJackBet = 0;
-                _playerCounter = 0;
-                _dealerCounter = 0;
-                PrepareForNewRound();
-                yield break;
-            }
+
+            Check();
             yield return new WaitForSeconds(1f);
         }
         hitButton.interactable = true;
@@ -160,8 +140,8 @@ public class BlackJackManager : MonoBehaviour
         hitButton.interactable = false;
         stayButton.interactable = false;
         string dealtCardsString = "";
-        List<string> cardNames = hodnotyKaret.Keys.ToList();
-        int value = hodnotyKaret[cardNames[Random.Range(0, cardNames.Count)]];
+        List<string> cardNames = _cardsValue.Keys.ToList();
+        int value = _cardsValue[cardNames[Random.Range(0, cardNames.Count)]];
         string finalValue = "";
         _playerDealtCards.Add(value);
         
@@ -196,33 +176,34 @@ public class BlackJackManager : MonoBehaviour
         playerCountDisplayer.text = _playerCounter.ToString();
         
 
-        if (_playerCounter > 21)
-        {
-            hasWonText.text = "You lost";
-            wonMoneyText.text = "";
-            StartCoroutine(HideText(true));
-            GlobalVariables.CurrentBlackJackBet = 0;
-            _playerCounter = 0;
-            return;
-        }
-        
-        if (_playerCounter == 21)
-        {
-            hasWonImage.SetActive(true);
-            hasWonText.text = "You won";
-            wonMoneyText.text = (GlobalVariables.CurrentBlackJackBet * 2).ToString();
-            StartCoroutine(HideText(true));
-            GlobalVariables.CurrentBlackJackBet = 0;
-            _playerCounter = 0;
-            playerCountDisplayer.text = _playerCounter.ToString();
-            return;
-        }
+        Check();
         
         playerNumber1.text = finalValue;
         playerNumber2.text = finalValue;
         playerCountDisplayer.text = _playerCounter.ToString();
         hitButton.interactable = true;
         stayButton.interactable = true;
+    }
+
+    public void Stay()
+    {
+        if (_dealerCounter <= 16)
+        {
+            string dealtCardsString = "";
+            List<string> cardNames = _cardsValue.Keys.ToList();
+            int value = _cardsValue[cardNames[Random.Range(0, cardNames.Count)]];
+            _dealerCounter += value;
+            _dealerDealtCards.Add(value);
+            for (int j = 0; j < _dealerDealtCards.Count; j++)
+            {
+                dealtCardsString += _dealerDealtCards[j].ToString();
+                dealerNumber1.text = value.ToString();
+                dealerNumber2.text = value.ToString();
+            }
+            dealerCountDisplayer.text = _dealerDealtCards[0].ToString();
+            dealerDealtCardsDisplayer.text = dealtCardsString;
+        }
+        Check();
     }
     
     private IEnumerator HideText(bool type)
@@ -246,5 +227,31 @@ public class BlackJackManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private int Check() //0 - lost, 1 - won, 2 - draw
+    {
+        if (_playerCounter > 21 || _dealerCounter == 21)
+        {
+            hasWonText.text = "You lost";
+            wonMoneyText.text = "";
+            StartCoroutine(HideText(true));
+            GlobalVariables.CurrentBlackJackBet = 10;
+            _playerCounter = 0;
+            PrepareForNewRound();
+            return 0;
+        }
+        if (_dealerCounter > 21 || _playerCounter == 21)
+        {
+            hasWonText.text = "You win";
+            wonMoneyText.text = "";
+            StartCoroutine(HideText(true));
+            GlobalVariables.CurrentBlackJackBet = 10;
+            _playerCounter = 0;
+            PrepareForNewRound();
+            return 1;
+        }
+
+        return 2;
     }
 }
