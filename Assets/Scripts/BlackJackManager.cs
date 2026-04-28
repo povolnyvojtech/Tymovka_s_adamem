@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class BlackJackManager : MonoBehaviour
 {
@@ -37,9 +39,27 @@ public class BlackJackManager : MonoBehaviour
     private List<int> _playerDealtCards = new List<int>();
     private List<int> _dealerDealtCards = new List<int>();
 
+    private void OnEnable()
+    {
+        _playerDealtCards.Clear();
+        _dealerDealtCards.Clear();
+        _playerCounter = 0;
+        _dealerCounter = 0;
+        playerDealtCardsDisplayer.text = "";
+        dealerDealtCardsDisplayer.text = "";
+        playerCountDisplayer.text = "0";
+        dealerCountDisplayer.text = "0";
+        playerNumber1.text = "6";
+        playerNumber2.text = "6";
+        dealerNumber1.text = "7";
+        dealerNumber2.text = "7";
+        startGameButton.gameObject.SetActive(true);
+        hitButton.gameObject.SetActive(false);
+        stayButton.gameObject.SetActive(false);
+    }
+
     private void PrepareForNewRound()
     {
-        Debug.Log("Stats at the end of round: PLAYER " + string.Join(",", _playerDealtCards) + " DEALER " + string.Join(",", _dealerDealtCards));
         _playerDealtCards.Clear();
         _dealerDealtCards.Clear();
         playerDealtCardsDisplayer.text = "";
@@ -352,7 +372,6 @@ public class BlackJackManager : MonoBehaviour
     private void HandleGameEnd(string resultText, int wonMoney)
     {
         hasWonText.text = resultText;
-        Debug.Log($"{resultText}. You: {_playerCounter}, Dealer: {_dealerCounter}");
         
         if (wonMoney > 0)
         {

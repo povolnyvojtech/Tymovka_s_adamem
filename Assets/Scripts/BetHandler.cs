@@ -10,7 +10,7 @@ public class BetHandler : MonoBehaviour
     public Button maxBetButton;
     public int type;
 
-    private void Start()
+    private void OnEnable()
     {
         switch (type)
         {
