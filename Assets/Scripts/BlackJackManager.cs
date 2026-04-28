@@ -25,7 +25,8 @@ public class BlackJackManager : MonoBehaviour
     public TextMeshProUGUI globalMoneyText;
     private int _playerCounter;
     private int _dealerCounter;
-    private bool _isStaying = false;
+    private bool _isStaying;
+    private string _dealtCardsString;
     private readonly Dictionary<string, int> _cardsValue = new Dictionary<string, int>()
     {
         {"2", 2}, {"3", 3}, {"4", 4}, {"5", 5},
@@ -38,6 +39,7 @@ public class BlackJackManager : MonoBehaviour
 
     private void PrepareForNewRound()
     {
+        Debug.Log("Stats at the end of round: PLAYER " + string.Join(",", _playerDealtCards) + " DEALER " + string.Join(",", _dealerDealtCards));
         _playerDealtCards.Clear();
         _dealerDealtCards.Clear();
         playerDealtCardsDisplayer.text = "";
@@ -51,8 +53,15 @@ public class BlackJackManager : MonoBehaviour
 
     public void StartGame()
     {
-        GlobalVariables.Money -= GlobalVariables.CurrentBlackJackBet;
-        globalMoneyText.text =  GlobalVariables.Money.ToString();
+        if (GlobalVariables.CurrentBlackJackBet > GlobalVariables.Money)
+        {
+            notEnoughMoneyText.SetActive(true);
+            StartCoroutine(HideText(false));
+            return;
+        }
+
+        GlobalVariables.Money -= GlobalVariables.CurrentBlackJackBet;   
+        globalMoneyText.text = GlobalVariables.Money.ToString();
         startGameButton.gameObject.SetActive(false);
         hitButton.gameObject.SetActive(true);
         stayButton.gameObject.SetActive(true);
@@ -61,77 +70,82 @@ public class BlackJackManager : MonoBehaviour
 
     private IEnumerator DealCards()
     {
-        if (GlobalVariables.CurrentBlackJackBet > GlobalVariables.Money)
-        {
-            notEnoughMoneyText.SetActive(true);
-            StartCoroutine(HideText(false));
-            yield return null;
-        }
         yield return new WaitForSeconds(1f);
         hitButton.interactable = false;
         stayButton.interactable = false;
         
         List<string> cardNames = _cardsValue.Keys.ToList();
-        string dealtCardsString = "";
         
         //deal to player
         for (int i = 0; i < 2; i++)
         {
             int value = _cardsValue[cardNames[Random.Range(0, cardNames.Count)]];
-            _playerCounter += value;
-            playerNumber1.text = value.ToString();
-            playerNumber2.text = value.ToString();
-            _playerDealtCards.Add(value);
-            for (int j = 0; j < _playerDealtCards.Count; j++)
+            string valueOnCard = "";
+        
+            if (value > 10)
             {
-                if (j == 0)
+                switch (value)
                 {
-                    dealtCardsString += _playerDealtCards[j].ToString();
-                }
-                else
-                {
-                    dealtCardsString += " + " + _playerDealtCards[j];
+                    case 11: valueOnCard = "J"; _playerCounter += 10; _playerDealtCards.Add(10); break;
+                    case 12: valueOnCard = "Q"; _playerCounter += 10; _playerDealtCards.Add(10); break;
+                    case 13: valueOnCard = "K"; _playerCounter += 10; _playerDealtCards.Add(10); break;
+                    case 14: valueOnCard = "A"; _playerCounter += 10; _playerDealtCards.Add(10); break;
                 }
             }
-            playerCountDisplayer.text = _playerCounter.ToString();
-            playerDealtCardsDisplayer.text = dealtCardsString;
-            dealtCardsString = "";
+            else
+            {
+                _playerCounter += value;
+                _playerDealtCards.Add(value);
+                valueOnCard = value.ToString();
+            }
+            playerNumber1.text = valueOnCard;
+            playerNumber2.text = valueOnCard;
+            PrintCards(true, false);
             yield return new WaitForSeconds(1f);
-            if (_playerCounter > 21)
-            {
-                Check();
-            }
 
         }
-        
+        if (_playerCounter > 21)
+        {
+            Check();
+            yield break;
+        }
+    
         //deal to dealer
         for (int i = 0; i < 2; i++)
         {
             int value = _cardsValue[cardNames[Random.Range(0, cardNames.Count)]];
-            _dealerCounter += value;
-            _dealerDealtCards.Add(value);
-            for (int j = 0; j < _dealerDealtCards.Count; j++)
+            string valueOnCard = "";
+        
+            if (value > 10)
             {
-                if (j == 0)
+                switch (value)
                 {
-                    dealtCardsString += _dealerDealtCards[j].ToString();
-                    dealerNumber1.text = value.ToString();
-                    dealerNumber2.text = value.ToString();
-                }
-                else
-                {
-                    dealerNumber1.text = "?";
-                    dealerNumber2.text = "?";
-                    dealtCardsString += " + ?";
+                    case 11: valueOnCard = "J"; _dealerCounter += 10; _dealerDealtCards.Add(10); break;
+                    case 12: valueOnCard = "Q"; _dealerCounter += 10; _dealerDealtCards.Add(10); break;
+                    case 13: valueOnCard = "K"; _dealerCounter += 10; _dealerDealtCards.Add(10); break;
+                    case 14: valueOnCard = "A"; _dealerCounter += 10; _dealerDealtCards.Add(10); break;
                 }
             }
-            dealerCountDisplayer.text = _dealerDealtCards[0].ToString();
-            dealerDealtCardsDisplayer.text = dealtCardsString;
-            dealtCardsString = "";
+            else
+            {
+                _dealerCounter += value;
+                valueOnCard = value.ToString();
+                _dealerDealtCards.Add(value);
+            }
 
+            dealerNumber1.text = valueOnCard;
+            dealerNumber2.text = valueOnCard;
+            PrintCards(false, true);
+            
             yield return new WaitForSeconds(1f);
-            Check();
         }
+        if (_dealerCounter > 21)
+        {
+            PrintCards(false, false);
+            Check();
+            yield break;
+        }
+
         hitButton.interactable = true;
         stayButton.interactable = true;
         
@@ -141,49 +155,37 @@ public class BlackJackManager : MonoBehaviour
     {
         hitButton.interactable = false;
         stayButton.interactable = false;
-        string dealtCardsString = "";
         List<string> cardNames = _cardsValue.Keys.ToList();
         int value = _cardsValue[cardNames[Random.Range(0, cardNames.Count)]];
         string finalValue = "";
-        _playerDealtCards.Add(value);
         
         if (value > 10)
         {
             switch (value)
             {
-                case 11: finalValue = "J"; _playerCounter += 10; break;
-                case 12: finalValue = "Q"; _playerCounter += 10; break;
-                case 13: finalValue = "K"; _playerCounter += 10; break;
-                case 14: finalValue = "A"; _playerCounter += 10; break;
+                case 11: finalValue = "J"; _playerCounter += 10; _playerDealtCards.Add(10); break;
+                case 12: finalValue = "Q"; _playerCounter += 10; _playerDealtCards.Add(10); break;
+                case 13: finalValue = "K"; _playerCounter += 10; _playerDealtCards.Add(10); break;
+                case 14: finalValue = "A"; _playerCounter += 10; _playerDealtCards.Add(10); break;
             }
         }
         else
         {
             _playerCounter += value;
+            _playerDealtCards.Add(value);
             finalValue = value.ToString();
         }
         
-        for (int j = 0; j < _playerDealtCards.Count; j++)
-        {
-            if (j == 0)
-            {
-                dealtCardsString += _playerDealtCards[j].ToString();
-            }
-            else
-            {
-                dealtCardsString += " + " + _playerDealtCards[j];
-            }
-        }
-        playerDealtCardsDisplayer.text = dealtCardsString;
-        playerCountDisplayer.text = _playerCounter.ToString();
-        
-        Check();
-        
+        PrintCards(true, false);
         playerNumber1.text = finalValue;
         playerNumber2.text = finalValue;
         playerCountDisplayer.text = _playerCounter.ToString();
         hitButton.interactable = true;
         stayButton.interactable = true;
+        if (_playerCounter > 21)
+        {
+            Check();
+        }
     }
 
     public void Stay()
@@ -191,28 +193,15 @@ public class BlackJackManager : MonoBehaviour
         _isStaying = true;
         while(_dealerCounter <= 16)
         {
-            string dealtCardsString = "";
             List<string> cardNames = _cardsValue.Keys.ToList();
             int value = _cardsValue[cardNames[Random.Range(0, cardNames.Count)]];
             _dealerCounter += value;
             _dealerDealtCards.Add(value);
-            for (int j = 0; j < _dealerDealtCards.Count; j++)
-            {
-                if (j == 0)
-                {
-                    dealtCardsString += _dealerDealtCards[j].ToString();
-                }
-                else
-                {
-                    dealtCardsString += ", " + _dealerDealtCards[j];
-                }
-                
-            }
+            PrintCards(false, false);
             dealerNumber1.text = value.ToString();
             dealerNumber2.text = value.ToString();
-            dealerCountDisplayer.text = _dealerCounter.ToString();
-            dealerDealtCardsDisplayer.text = dealtCardsString;
         }
+        PrintCards(false, false);
         Check();
         _isStaying = false;
     }
@@ -240,10 +229,82 @@ public class BlackJackManager : MonoBehaviour
         }
     }
 
+    private void PrintCards(bool type, bool dealerType) //true - player, false - dealer -> true - otazniky, false - everything
+    {
+        switch (type)
+        {
+            case true:
+            {
+                for (int j = 0; j < _playerDealtCards.Count; j++)
+                {
+                    if (j == 0)
+                    {
+                        _dealtCardsString += _playerDealtCards[j].ToString();
+                    }
+                    else
+                    {
+                        _dealtCardsString += " + " + _playerDealtCards[j];
+                    }
+                }
+
+                playerCountDisplayer.text = _playerCounter.ToString();
+                playerDealtCardsDisplayer.text = _dealtCardsString;
+                _dealtCardsString = "";
+                break;
+            }
+            case false:
+            {
+                switch (dealerType)
+                {
+                    case true:
+                    {
+                        for (int j = 0; j < _dealerDealtCards.Count; j++)
+                        {
+                            if (j == 0)
+                            {
+                                _dealtCardsString += _dealerDealtCards[j].ToString();
+                            }
+                            else
+                            {
+                                dealerNumber1.text = "?";
+                                dealerNumber2.text = "?";
+                                _dealtCardsString += " + ?";
+                            }
+                        }
+                        dealerCountDisplayer.text = _dealerDealtCards[0].ToString();
+                        dealerDealtCardsDisplayer.text = _dealtCardsString;
+                        _dealtCardsString = "";
+                        break;
+                    }
+                    case false:
+                    {
+                        for (int i = 0; i < _dealerDealtCards.Count; i++)
+                        {
+                            if (i == 0)
+                            {
+                                _dealtCardsString += _dealerDealtCards[i].ToString();
+                            }
+                            else
+                            {
+                                _dealtCardsString += " + " + _dealerDealtCards[i];
+                            }
+                            dealerCountDisplayer.text = _dealerCounter.ToString();
+                            dealerDealtCardsDisplayer.text = _dealtCardsString;
+                        }
+                        _dealtCardsString = "";
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+    }
+
     private void Check() 
     {
         if (_playerCounter > 21)
         {
+            
             HandleGameEnd("You lost", 0);
             return;
         }
@@ -254,7 +315,6 @@ public class BlackJackManager : MonoBehaviour
             return;
         }
 
-        // 2. Někdo má přesně 21 (Blackjack)
         if (_playerCounter == 21 || _dealerCounter == 21)
         {
             if (_playerCounter == 21 && _dealerCounter == 21)
@@ -265,7 +325,7 @@ public class BlackJackManager : MonoBehaviour
             {
                 HandleGameEnd("You win", GlobalVariables.CurrentBlackJackBet * 2);
             }
-            else // Dealer má 21
+            else
             {
                 HandleGameEnd("You lost", 0);
             }
@@ -293,8 +353,7 @@ public class BlackJackManager : MonoBehaviour
     {
         hasWonText.text = resultText;
         Debug.Log($"{resultText}. You: {_playerCounter}, Dealer: {_dealerCounter}");
-
-        // Zpracování peněz a textu
+        
         if (wonMoney > 0)
         {
             wonMoneyText.text = wonMoney.ToString();
