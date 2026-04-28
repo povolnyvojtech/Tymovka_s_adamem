@@ -17,6 +17,8 @@ public class TimerManagerScript : MonoBehaviour
     public static GameObject PracticeTimerImageBg;
     public static Image PracticeTimerImageFg;
     public static RectTransform PracticeRt;
+    public static Image ElectricityImage;
+    public static Image RentImage;
     
     
     public static event Action JobFinished;
@@ -32,6 +34,27 @@ public class TimerManagerScript : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    public static IEnumerator ElectricityTimer(RectTransform rect)
+    {
+        float totalToGrow = 200f;
+        float growthPerSecond = totalToGrow / GlobalVariables.Duration;
+        float currentWidth = 0f;
+        
+        while (GlobalVariables.Duration > 0)
+        {
+            yield return null;
+            GlobalVariables.Duration -= Time.deltaTime;
+            currentWidth += growthPerSecond * Time.deltaTime;
+
+            if (!rect) continue;
+            
+            if (GlobalVariables.ActiveScene == "Desktop")
+            {
+                rect.sizeDelta = new Vector2(currentWidth, 30);
+            }
         }
     }
     
@@ -58,7 +81,6 @@ public class TimerManagerScript : MonoBehaviour
         float growthPerSecond = totalToGrow / duration;
         CurrentJobTimeLeft = jobTime * GlobalVariables.SpeedMultiplier;
         
-        Debug.Log(CurrentJobTimeLeft);
         while (CurrentJobTimeLeft > 0)
         {
             yield return null;
