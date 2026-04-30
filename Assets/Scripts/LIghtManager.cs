@@ -16,7 +16,7 @@ public class LightManager : MonoBehaviour
     }
     private void Start()
     {
-        if (GlobalVariables.PowerSwitchState)
+        if (GlobalVariables.HasPaidElectricity)
         {
             TurnPowerOn();
         }
@@ -35,5 +35,9 @@ public class LightManager : MonoBehaviour
     {
         globalLight.intensity = 1f;
         playerLight.enabled = false;
+        if (!GlobalVariables.HasPaidElectricity)
+        {
+            TimerManagerScript.Instance.StartCoroutine(TimerManagerScript.ElectricityTimer(false));
+        }
     }
 }

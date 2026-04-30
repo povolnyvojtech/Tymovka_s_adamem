@@ -25,18 +25,18 @@ public class TriggerScript : MonoBehaviour
         {
             if (powerSwitch)
             {
-                if(GlobalVariables.PowerSwitchState)
+                if(GlobalVariables.HasPaidElectricity)
                 {
                     powerSwitchOn.SetActive(true);
                     powerSwitchOff.SetActive(false);
                     LightManager.Instance.TurnPowerOff();
-                    GlobalVariables.PowerSwitchState = false;
+                    GlobalVariables.HasPaidElectricity = false;
                     return;
                 }
                 powerSwitchOn.SetActive(false);
                 powerSwitchOff.SetActive(true);
                 LightManager.Instance.TurnPowerOn();
-                GlobalVariables.PowerSwitchState = true;
+                GlobalVariables.HasPaidElectricity = true;
                 return;
             }
             SceneManager.LoadScene(targetScene);

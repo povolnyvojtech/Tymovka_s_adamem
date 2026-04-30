@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TimerManagerScript : MonoBehaviour
@@ -17,7 +18,6 @@ public class TimerManagerScript : MonoBehaviour
     public static GameObject PracticeTimerImageBg;
     public static Image PracticeTimerImageFg;
     public static RectTransform PracticeRt;
-    public static GameObject ElectricityBg;
     public static Image ElectricityImage;
     public static Image RentImage;
     
@@ -31,7 +31,7 @@ public class TimerManagerScript : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             StartCoroutine(RestartJobOfferTimer());
-            StartCoroutine(ElectricityTimer());
+            GlobalVariables.ElectricityCoroutine = StartCoroutine(ElectricityTimer(true));
         }
         else
         {
@@ -39,28 +39,43 @@ public class TimerManagerScript : MonoBehaviour
         }
     }
 
-    public static IEnumerator ElectricityTimer()
+    public static IEnumerator ElectricityTimer(bool type) //true - hasPaidElectricity, false - temporaryTurnOnFuse
     {
         float totalToGrow = 200f;
-        float growthPerSecond = totalToGrow / GlobalVariables.Duration;
-        float currentWidth = 0f;
-        
-        while (GlobalVariables.Duration > 0)
-        {
-            yield return null;
-            GlobalVariables.Duration -= Time.deltaTime;
-            currentWidth += growthPerSecond * Time.deltaTime;
+        float growthPerSecond = totalToGrow / GlobalVariables.ElectricityDuration;
 
-            if (!ElectricityBg) continue;
-            
-            if (GlobalVariables.ActiveScene == "Desktop")
+        switch (type)
+        {
+            case true:
             {
-                ElectricityBg.SetActive(true);
-                ElectricityImage.GetComponent<RectTransform>().sizeDelta = new Vector2(currentWidth, 30);
+                while (GlobalVariables.ElectricityDuration > 0)
+                {
+                    yield return null;
+                    GlobalVariables.ElectricityDuration -= Time.deltaTime;
+                    GlobalVariables.CurrentElectricitySliderValue += growthPerSecond * Time.deltaTime;
+
+                    if (!ElectricityImage || GlobalVariables.ActiveScene != "Desktop")
+                    {
+                        Debug.Log("Either electricity bg or desktop are not active");
+                        continue;
+                    }
+                    ElectricityImage.GetComponent<RectTransform>().sizeDelta = new Vector2(GlobalVariables.CurrentElectricitySliderValue, 30);
+                }
+
+                GlobalVariables.HasPaidElectricity = false;
+                SceneManager.LoadScene("Bedroom");
+                break;
+            }
+            case false:
+            {
+                yield return new WaitForSeconds(10f);
+                if (SceneManager.GetActiveScene().name == "Desktop" && !GlobalVariables.HasPaidElectricity)
+                {
+                    SceneManager.LoadScene("Bedroom");
+                }
+                break;
             }
         }
-
-        GlobalVariables.PowerSwitchState = false;
     }
         
     private static IEnumerator RestartJobOfferTimer()

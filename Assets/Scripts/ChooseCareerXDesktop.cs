@@ -1,3 +1,5 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -5,6 +7,7 @@ using UnityEngine.UIElements;
 public class SwitchChooseXDesktop : MonoBehaviour
 {
     public GameObject interactionButton;
+    public GameObject electricityOffText;
     private string _targetScene;
     
     private bool _isPlayerInRange;
@@ -20,6 +23,7 @@ public class SwitchChooseXDesktop : MonoBehaviour
     {
         if (_isPlayerInRange && Input.GetKeyDown(KeyCode.E) && _targetScene != "none")
         {
+            if (!GlobalVariables.HasPaidElectricity) return;
             SceneManager.LoadScene(_targetScene);
         }
     }
@@ -27,6 +31,11 @@ public class SwitchChooseXDesktop : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!interactionButton) return;
+        if (!GlobalVariables.HasPaidElectricity)
+        {
+            electricityOffText.SetActive(true);
+            return;
+        };
         _targetScene = GlobalVariables.HasCareer ? "Desktop" : "PcChoosePath";
         interactionButton.SetActive(true);
         _isPlayerInRange = true;
@@ -35,6 +44,12 @@ public class SwitchChooseXDesktop : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!interactionButton) return;
+        if (!GlobalVariables.HasPaidElectricity)
+        {
+            electricityOffText.SetActive(false);
+            _isPlayerInRange = false;
+            return;
+        };
         interactionButton.SetActive(false);
         _isPlayerInRange = false;
     }

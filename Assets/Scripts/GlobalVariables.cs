@@ -30,7 +30,7 @@ public class GlobalVariables : MonoBehaviour
     public static bool HasCareer = false;
     public static string CareerPath = "None"; //vždy formát - TYPPROFESEzamereni - GDgodot 
 
-    public static int Money = 450;
+    public static int Money = 5000;
     
     public static int HourRate = 10; //- hodinova sazba (cim vetsi Level, tim vetsi sazba)
     public static int Level = 1;
@@ -65,8 +65,10 @@ public class GlobalVariables : MonoBehaviour
     public static int CurrentBlackJackBet = 10;
     
     //bills
-    public static float Duration = 5;
-    public static bool PowerSwitchState = true; //true - eletkrika jede, false - elektrika nejede
+    public static float ElectricityDuration = 5;
+    public static bool HasPaidElectricity = true; //true - eletkrika jede, false - elektrika nejede
+    public static Coroutine ElectricityCoroutine;
+    public static float CurrentElectricitySliderValue;
 
 
     public static void CalculateChanceToGetGirls()

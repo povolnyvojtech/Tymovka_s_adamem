@@ -8,7 +8,7 @@ public class PowerSwitchManager : MonoBehaviour
 
     private void Start()
     {
-        if (GlobalVariables.PowerSwitchState)
+        if (GlobalVariables.HasPaidElectricity)
         {
             powerSwitchOn.SetActive(true);
             powerSwitchOff.SetActive(false);

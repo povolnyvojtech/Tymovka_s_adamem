@@ -8,7 +8,7 @@ public class AssignToTimerManager : MonoBehaviour
     public Image rentTimerImage;
     
     
-    void Awake()
+    void Start()
     {
         switch (type)
         {
