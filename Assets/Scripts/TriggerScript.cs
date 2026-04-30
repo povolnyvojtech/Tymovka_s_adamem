@@ -7,6 +7,9 @@ public class TriggerScript : MonoBehaviour
     public GameObject lockedText;
     public string targetScene;
     public bool locked;
+    public bool powerSwitch;
+    public GameObject powerSwitchOff;
+    public GameObject powerSwitchOn;
     
     private bool _isPlayerInRange;
 
@@ -18,8 +21,24 @@ public class TriggerScript : MonoBehaviour
 
     private void Update()
     {
-        if (_isPlayerInRange && !locked && Input.GetKeyDown(KeyCode.E) && targetScene != "none")
+        if (_isPlayerInRange && !locked && Input.GetKeyDown(KeyCode.E) && targetScene != "none")    
         {
+            if (powerSwitch)
+            {
+                if(GlobalVariables.PowerSwitchState)
+                {
+                    powerSwitchOn.SetActive(true);
+                    powerSwitchOff.SetActive(false);
+                    LightManager.Instance.TurnPowerOff();
+                    GlobalVariables.PowerSwitchState = false;
+                    return;
+                }
+                powerSwitchOn.SetActive(false);
+                powerSwitchOff.SetActive(true);
+                LightManager.Instance.TurnPowerOn();
+                GlobalVariables.PowerSwitchState = true;
+                return;
+            }
             SceneManager.LoadScene(targetScene);
         }
     }

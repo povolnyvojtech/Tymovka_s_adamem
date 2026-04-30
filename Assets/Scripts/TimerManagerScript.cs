@@ -17,6 +17,7 @@ public class TimerManagerScript : MonoBehaviour
     public static GameObject PracticeTimerImageBg;
     public static Image PracticeTimerImageFg;
     public static RectTransform PracticeRt;
+    public static GameObject ElectricityBg;
     public static Image ElectricityImage;
     public static Image RentImage;
     
@@ -30,6 +31,7 @@ public class TimerManagerScript : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             StartCoroutine(RestartJobOfferTimer());
+            StartCoroutine(ElectricityTimer());
         }
         else
         {
@@ -37,7 +39,7 @@ public class TimerManagerScript : MonoBehaviour
         }
     }
 
-    public static IEnumerator ElectricityTimer(RectTransform rect)
+    public static IEnumerator ElectricityTimer()
     {
         float totalToGrow = 200f;
         float growthPerSecond = totalToGrow / GlobalVariables.Duration;
@@ -49,15 +51,18 @@ public class TimerManagerScript : MonoBehaviour
             GlobalVariables.Duration -= Time.deltaTime;
             currentWidth += growthPerSecond * Time.deltaTime;
 
-            if (!rect) continue;
+            if (!ElectricityBg) continue;
             
             if (GlobalVariables.ActiveScene == "Desktop")
             {
-                rect.sizeDelta = new Vector2(currentWidth, 30);
+                ElectricityBg.SetActive(true);
+                ElectricityImage.GetComponent<RectTransform>().sizeDelta = new Vector2(currentWidth, 30);
             }
         }
+
+        GlobalVariables.PowerSwitchState = false;
     }
-    
+        
     private static IEnumerator RestartJobOfferTimer()
     {
         while (true)
