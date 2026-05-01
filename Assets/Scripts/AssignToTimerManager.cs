@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class AssignToTimerManager : MonoBehaviour
@@ -8,7 +9,7 @@ public class AssignToTimerManager : MonoBehaviour
     public Image rentTimerImage;
     
     
-    void Start()
+    private void Start()
     {
         switch (type)
         {
@@ -20,6 +21,30 @@ public class AssignToTimerManager : MonoBehaviour
             case 1:
             {
                 TimerManagerScript.RentImage = rentTimerImage;
+                break;
+            }
+        }
+    }
+
+    private void Update()
+    {
+        switch (type)
+        {
+            case 0:
+            {
+                if (!electricityImage) return;
+                if (GlobalVariables.CurrentElectricitySliderValue >= 200f)
+                {
+                    electricityImage.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, 30);
+                    break;
+                }
+                electricityImage.GetComponent<RectTransform>().sizeDelta = new Vector2(GlobalVariables.CurrentElectricitySliderValue, 30);
+                break;
+            }
+            case 1:
+            {
+                if (!rentTimerImage || GlobalVariables.ActiveScene != "Desktop") return;
+                rentTimerImage.GetComponent<RectTransform>().sizeDelta = new Vector2(GlobalVariables.CurrentRentSliderValue, 30);
                 break;
             }
         }

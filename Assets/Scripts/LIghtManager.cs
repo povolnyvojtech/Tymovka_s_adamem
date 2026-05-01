@@ -1,3 +1,5 @@
+using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Rendering.Universal; 
@@ -14,9 +16,10 @@ public class LightManager : MonoBehaviour
             Instance = this;
         }
     }
+    
     private void Start()
     {
-        if (GlobalVariables.HasPaidElectricity)
+        if (GlobalVariables.CurrentElectricityState)
         {
             TurnPowerOn();
         }
@@ -29,15 +32,20 @@ public class LightManager : MonoBehaviour
     {
         globalLight.intensity = 0.02f;
         playerLight.enabled = true;
+        GlobalVariables.CurrentElectricityState = false;
     }
 
     public void TurnPowerOn()
     {
+        GlobalVariables.CurrentElectricityState = true;
+        if (GlobalVariables.HasPaidElectricity)
+        {
+            globalLight.intensity = 1f;
+            playerLight.enabled = false;
+            return;
+        }
         globalLight.intensity = 1f;
         playerLight.enabled = false;
-        if (!GlobalVariables.HasPaidElectricity)
-        {
-            TimerManagerScript.Instance.StartCoroutine(TimerManagerScript.ElectricityTimer(false));
-        }
+        HallTimerManager.Instance.StartCoroutine(HallTimerManager.Instance.ElectricityTimer(false));
     }
 }

@@ -14,6 +14,6 @@ public class BillManager : MonoBehaviour
         GlobalVariables.ElectricityDuration += 5f;
         GlobalVariables.Money -= 200;
         moneyText.text = GlobalVariables.Money.ToString();
-        GlobalVariables.ElectricityCoroutine = StartCoroutine(TimerManagerScript.ElectricityTimer(true));
+        GlobalVariables.ElectricityCoroutine = StartCoroutine(HallTimerManager.Instance.ElectricityTimer(true));
     }
 }

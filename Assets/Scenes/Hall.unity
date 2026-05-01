@@ -214,6 +214,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &67846027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 67846029}
+  - component: {fileID: 67846028}
+  m_Layer: 0
+  m_Name: HallTimerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &67846028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67846027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 143d76a1ce92f8d4790cc4c9dbabe3fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+--- !u!4 &67846029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67846027}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.19968, y: -0.15757, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &118874465
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -563,8 +607,8 @@ MonoBehaviour:
   targetScene: 
   locked: 0
   powerSwitch: 1
-  powerSwitchOff: {fileID: 2101618023}
-  powerSwitchOn: {fileID: 815855896}
+  powerSwitchOn: {fileID: 2101618023}
+  powerSwitchOff: {fileID: 815855896}
 --- !u!61 &697366911
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1394,8 +1438,8 @@ MonoBehaviour:
   targetScene: Kitchen
   locked: 1
   powerSwitch: 0
-  powerSwitchOff: {fileID: 2101618023}
   powerSwitchOn: {fileID: 815855896}
+  powerSwitchOff: {fileID: 2101618023}
 --- !u!61 &1471680098
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1492,8 +1536,8 @@ MonoBehaviour:
   targetScene: Bedroom
   locked: 0
   powerSwitch: 0
-  powerSwitchOff: {fileID: 2101618023}
   powerSwitchOn: {fileID: 815855896}
+  powerSwitchOff: {fileID: 2101618023}
 --- !u!61 &1561769409
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1968,7 +2012,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -306138123829818584, guid: f100237e2d2f25945a496f0903e81d75, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2098,3 +2142,4 @@ SceneRoots:
   - {fileID: 2101618025}
   - {fileID: 815855898}
   - {fileID: 61459264}
+  - {fileID: 67846029}

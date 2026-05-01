@@ -15,7 +15,6 @@ public class SwitchChooseXDesktop : MonoBehaviour
 
     private void Start()
     {
-        _targetScene ??= "none"; //dva otazníky znamenají, že pokud je vlevo null, přiřaď tomu to co je vlevo
         interactionButton.SetActive(false);
     }
 
@@ -23,15 +22,17 @@ public class SwitchChooseXDesktop : MonoBehaviour
     {
         if (_isPlayerInRange && Input.GetKeyDown(KeyCode.E) && _targetScene != "none")
         {
-            if (!GlobalVariables.HasPaidElectricity) return;
-            SceneManager.LoadScene(_targetScene);
+            if(GlobalVariables.CurrentElectricityState)
+            {
+                SceneManager.LoadScene(_targetScene);
+            }
         }
     }
     
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!interactionButton) return;
-        if (!GlobalVariables.HasPaidElectricity)
+        if (!GlobalVariables.CurrentElectricityState)
         {
             electricityOffText.SetActive(true);
             return;

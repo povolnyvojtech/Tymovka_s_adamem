@@ -8,8 +8,8 @@ public class TriggerScript : MonoBehaviour
     public string targetScene;
     public bool locked;
     public bool powerSwitch;
-    public GameObject powerSwitchOff;
     public GameObject powerSwitchOn;
+    public GameObject powerSwitchOff;
     
     private bool _isPlayerInRange;
 
@@ -21,22 +21,37 @@ public class TriggerScript : MonoBehaviour
 
     private void Update()
     {
-        if (_isPlayerInRange && !locked && Input.GetKeyDown(KeyCode.E) && targetScene != "none")    
+        if (_isPlayerInRange && !locked && Input.GetKeyDown(KeyCode.E))    
         {
             if (powerSwitch)
             {
                 if(GlobalVariables.HasPaidElectricity)
                 {
+                    switch (GlobalVariables.CurrentElectricityState)
+                    {
+                        case true:
+                        {
+                            powerSwitchOn.SetActive(false);
+                            powerSwitchOff.SetActive(true);
+                            LightManager.Instance.TurnPowerOff();
+                            break;
+                        }
+                        case false:
+                        {
+                            powerSwitchOn.SetActive(true);
+                            powerSwitchOff.SetActive(false);
+                            LightManager.Instance.TurnPowerOn();
+                            break;
+                        }
+                    }
+                }
+                else
+                {
                     powerSwitchOn.SetActive(true);
                     powerSwitchOff.SetActive(false);
-                    LightManager.Instance.TurnPowerOff();
-                    GlobalVariables.HasPaidElectricity = false;
-                    return;
+                    LightManager.Instance.TurnPowerOn();
                 }
-                powerSwitchOn.SetActive(false);
-                powerSwitchOff.SetActive(true);
-                LightManager.Instance.TurnPowerOn();
-                GlobalVariables.HasPaidElectricity = true;
+
                 return;
             }
             SceneManager.LoadScene(targetScene);

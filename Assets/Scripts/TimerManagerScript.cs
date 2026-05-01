@@ -31,7 +31,6 @@ public class TimerManagerScript : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             StartCoroutine(RestartJobOfferTimer());
-            GlobalVariables.ElectricityCoroutine = StartCoroutine(ElectricityTimer(true));
         }
         else
         {
@@ -39,44 +38,7 @@ public class TimerManagerScript : MonoBehaviour
         }
     }
 
-    public static IEnumerator ElectricityTimer(bool type) //true - hasPaidElectricity, false - temporaryTurnOnFuse
-    {
-        float totalToGrow = 200f;
-        float growthPerSecond = totalToGrow / GlobalVariables.ElectricityDuration;
 
-        switch (type)
-        {
-            case true:
-            {
-                while (GlobalVariables.ElectricityDuration > 0)
-                {
-                    yield return null;
-                    GlobalVariables.ElectricityDuration -= Time.deltaTime;
-                    GlobalVariables.CurrentElectricitySliderValue += growthPerSecond * Time.deltaTime;
-
-                    if (!ElectricityImage || GlobalVariables.ActiveScene != "Desktop")
-                    {
-                        Debug.Log("Either electricity bg or desktop are not active");
-                        continue;
-                    }
-                    ElectricityImage.GetComponent<RectTransform>().sizeDelta = new Vector2(GlobalVariables.CurrentElectricitySliderValue, 30);
-                }
-
-                GlobalVariables.HasPaidElectricity = false;
-                SceneManager.LoadScene("Bedroom");
-                break;
-            }
-            case false:
-            {
-                yield return new WaitForSeconds(10f);
-                if (SceneManager.GetActiveScene().name == "Desktop" && !GlobalVariables.HasPaidElectricity)
-                {
-                    SceneManager.LoadScene("Bedroom");
-                }
-                break;
-            }
-        }
-    }
         
     private static IEnumerator RestartJobOfferTimer()
     {
@@ -176,6 +138,5 @@ public class TimerManagerScript : MonoBehaviour
             Destroy(message.gameObject);
         }
         GlobalVariables.InboxWomen.Clear();
-        Debug.Log(GlobalVariables.InboxWomen.Count);
     }
 }
